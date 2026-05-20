@@ -1,0 +1,543 @@
+Build a pixel-accurate clone of a crypto trading platform called 
+"Horizon Markets" using React + Vite + Tailwind CSS + React Router. 
+Below is the complete spec based on the exact UI.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## DESIGN SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Colors:
+- Page background: #000000 (pure black)
+- Card background: #111111 / #161616
+- Dashboard hero bg: very dark green-tinted #0a1a0f
+- Primary CTA: Bright neon green #00e676 (buttons, links, active states)
+- Positive %: #00e676 (green)
+- Negative %: #ef4444 (red)
+- Text primary: #ffffff
+- Text secondary: #9ca3af
+- Input background: #1a1a1a
+- Border color: #2a2a2a
+- Active menu item bg: #0f2a0f (dark green tint)
+- Active menu text: #00e676
+
+Typography:
+- Font: Inter (Google Fonts)
+- Logo text: "HORIZON" bold uppercase, "MARKETS" smaller tracking-widest below
+- All numbers in monospace feel (tabular-nums)
+
+Logo:
+- Left: candlestick bar chart icon in green gradient 
+  rising from a horizon/arc shape
+- Text: "HORIZON" white bold + "MARKETS" green smaller below
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## ROUTES (React Router)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/ → Landing Page (public)
+/login → Login Page
+/register → Register Page
+/dashboard → Dashboard (after login)
+/trade → Trade Page
+/markets → Markets Page
+/deposit → Deposit Page
+/withdraw → Withdraw Page (placeholder)
+/bots → Bots Page (placeholder)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 1: LANDING PAGE (/)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Header (sticky):
+- Left: Horizon Markets logo
+- Right: "Sign In" ghost text link + "Get Started" 
+  neon green rounded button
+
+Hero Section:
+- Background: pure black
+- Small label: "Premium Trading" in neon green 
+  with dot prefix
+- H1: "Professional Trading Platform" 
+  white, bold, large
+- Subtext: "Our platform provides real-time market 
+  data and professional tools tailored to maximize 
+  your trading opportunities." gray
+- Two feature cards below (dark bg, rounded-xl):
+
+  Card 1:
+  - Icon: line-chart inside dark green square bg
+  - Title: "Advanced Trading Charts" white bold
+  - Body: "Access professional candlestick charts 
+    with real-time OHLCV data and multiple 
+    timeframes." gray
+
+  Card 2:
+  - Icon: activity/pulse inside dark green square bg
+  - Title: "Real-Time Market Monitoring"
+  - Body: description about live market data
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 2: LOGIN (/login)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Full black page bg
+- Centered card (dark #111, rounded-2xl, p-8, max-w-md)
+- Top: Horizon Markets logo (icon + text) centered
+- H2: "Welcome back" white bold large
+- Subtext: "Sign in to your Horizon Markets account" gray
+- Label: "Email"
+- Input: placeholder "you@example.com" 
+  (dark bg, white text, rounded-lg, border #2a2a2a)
+- Label: "Password"
+- Input: placeholder "Enter your password" (type password)
+- Right-aligned link: "Forgot password?" in neon green
+- Full-width button: "Sign in" — bright neon green bg, 
+  black bold text, rounded-lg, h-12
+- Bottom text: "Don't have an account?" gray + 
+  "Sign up" neon green link
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 3: REGISTER (/register)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Same card style as login
+- Logo centered top
+- H2: "Create an account"
+- Subtext: "Start trading crypto with Horizon Markets"
+- Two inputs side by side: 
+  First Name (placeholder: John) | Last Name (placeholder: Doe)
+- Full width: Email
+- Phone Number row: 
+  [🇺🇸 flag dropdown +1] [phone number input]
+- Password: "Create a password"
+- Confirm Password: "Confirm your password"
+- Full-width green button: "Create account"
+- Bottom: "Already have an account?" + "Sign in" green link
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## SHARED: AUTHENTICATED HEADER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Left: Horizon Markets logo (smaller version)
+- Right side 3 icons:
+  1. Person/profile icon (white)
+  2. Logout icon (red arrow pointing right out of box)
+  3. Hamburger menu (3 lines, white)
+- Pure black bg, no border
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## SHARED: SIDE DRAWER MENU
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Opens from right when hamburger clicked.
+Left side remains showing blurred dashboard behind.
+
+- "Menu" heading white bold + X close button top right
+- Menu items (each with icon + label):
+  1. Dashboard — grid/squares icon 
+     [ACTIVE STATE: dark green bg #0f2a0f, text neon green]
+  2. Trade — trending-up arrow icon
+  3. Markets — bar chart icon  
+  4. Deposit — arrow up-right icon
+  5. Withdraw — arrow down-left icon
+  6. Bots — bot/cpu icon
+- Horizontal divider
+- Wallet balance pill: 
+  green wallet icon + "$0.00" (dark card bg)
+- Search input: "Search markets..." with search icon
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 4: DASHBOARD (/dashboard)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Toast notification (top of page, dark card):
+"Welcome back! ✓"
+"You have successfully logged in."
+
+Hero Section:
+- Background: very dark green gradient #0a1a0f to #000
+- H1: "Welcome back, [Username]" white bold large
+- Subtext: "Here's the latest market overview." gray
+
+Stats Grid (2x2):
+Card 1 — Total Balance:
+  - Icon: wallet outline (top left, gray)
+  - Label: "Total Balance" gray small
+  - Value: "$0.00" white bold large
+
+Card 2 — 24h Volume:
+  - Icon: activity/wave (top left, gray)
+  - Label: "24h Volume" gray small
+  - Value: "$558.05 B" white bold large
+
+Card 3 — Top Gainer:
+  - Icon: arrow trending up (green)
+  - Label: "Top Gainer" gray small
+  - Value: "BTC" white + "+442.75%" neon green bold
+
+Card 4 — Top Loser:
+  - Icon: arrow trending down (red)
+  - Label: "Top Loser" gray small
+  - Value: "BCH" white + "-10.50%" red bold
+
+All 4 cards: bg #111111, rounded-xl, p-4, border #1e1e1e
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TICKER BAR (scrolling horizontally):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Auto-scrolling horizontal bar showing pairs:
+[coin icon] ETH/USDT 9.98  |  
+[coin icon] BNB/USDT 644.30  |  
+[coin icon] SOL/USDT 84.95  |  
+[coin icon] XRP 1.3695  |  
+[coin icon] ADA/USDT 0.2495  |
+[coin icon] DOGE/USDT 0.10361
+Separated by vertical dividers, infinite scroll animation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TRENDING ASSETS SECTION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Header row: "Trending Assets" white bold left + 
+"View All →" gray right
+
+Each asset card (full width, dark bg, rounded-xl, p-4):
+- Top row: Symbol bold white + Full name gray small LEFT |
+  % badge RIGHT (green bg if positive, red bg if negative)
+  Example: "+1.45%" in small green pill
+- Middle: sparkline SVG line chart 
+  (neon green line if positive, red line if negative)
+  No axes, no grid — clean minimal sparkline
+- Bottom row: price "$8,578.67" white bold LEFT |
+  "Vol: $490.23 B" gray small RIGHT
+
+Mock data for trending assets:
+- YFI / yearn.finance — $8,578.67 — +1.45% — green chart
+- MKR / Maker — $1,836.60 — +1.99% — green chart  
+- AAVE / Aave — $185.35 — +3.39% — green chart
+- ZEC / Zcash — $52.28 — -2.93% — red chart
+- QNT / Quant — $117.31 — -1.12% — red chart
+- EGLD / MultiversX — $41.58 — -3.34% — red chart
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TOP GAINERS / LOSERS LISTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Top Gainers (24h) card:
+- Green trending icon + "Top Gainers (24h)" heading
+- List rows: [number] [coin icon] [SYMBOL] [price gray] [% green right]
+  1. BTC — $77,408.08 — +454.83%
+  2. IMX — $1.59 — +3.98%
+  3. GRT — $0.281356 — +3.98%
+  4. RNDR — $8.44 — +3.89%
+
+Top Losers (24h) card:
+- Red trending icon + "Top Losers (24h)" heading
+  1. BCH — $368.90 — -10.50%
+  2. SNX — $2.80 — -3.96%
+  3. ATOM — $9.82 — -3.85%
+  4. SUSHI — $1.20 — -3.83%
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 5: TRADE (/trade)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Top bar (below header):
+[BTC orange icon] BTC/USDT [dropdown chevron] 
+$97,500.00 white bold large | 
+↗ +2.58% neon green
+
+── CHART SECTION (dark card rounded-xl) ──
+Top row: "BTC/USDT" label | 
+Timeframe tabs: 1H | 4H | 1D (active, white bg) | 1W | 1M
+Chart type tabs: Candle (active, white bg) | Line | Area
+
+Candlestick chart area:
+- Pure dark bg
+- Red + green candlestick bars
+- Y-axis prices right side in gray:
+  $111,471 / $108,467 / $105,464 / $102,460
+- No x-axis labels needed
+
+── ORDER BOOK SECTION (dark card rounded-xl) ──
+Header: "Order Book" left | 
+Right tabs: "Both" (dark active) | "Bids" | "Asks"
+Column headers: Price | Amount | Total (gray small)
+
+Ask rows (sell, red prices, red bg highlight bar):
+97,597.50  |  0.4528  |  44,191.164
+97,695.00  |  1.7989  |  175,742.677
+97,792.50  |  0.2689  |  26,294.341
+97,890.00  |  1.4814  |  145,011.342
+97,987.50  |  1.4241  |  139,540.209
+98,085.00  |  0.9446  |  92,649.209
+98,182.50  |  1.2655  |  124,251.035
+98,280.00  |  0.2078  |  20,421.482
+
+Bid rows (buy, green prices, green bg highlight bar):
+97,012.50  |  0.6584  |  63,869.402
+96,915.00  |  0.7361  |  71,338.043
+96,817.50  |  1.3499  |  130,690.051
+
+── RECENT TRADES SECTION (dark card rounded-xl) ──
+Header: "Recent Trades"
+Columns: Price | Amount | Time (gray small)
+Rows (alternating green/red prices):
+97,524.99 (green) | 0.2394 | 10:19:13
+97,526.06 (green) | 0.2517 | 10:19:08
+97,536.24 (red)   | 0.3683 | 10:19:03
+97,447.62 (red)   | 0.0961 | 10:18:58
+97,442.67 (red)   | 0.1675 | 10:18:53
+97,491.36 (green) | 0.0214 | 10:18:48
+
+── ORDER FORM SECTION (dark card rounded-xl) ──
+Buy/Sell toggle:
+[Buy] neon green bg, black text | [Sell] dark bg gray text
+(full width toggle row, rounded-lg)
+
+Limit/Market toggle:
+[Limit] white bg dark text active | [Market] dark inactive
+
+Fields:
+- Label: "Price (USDT)"
+  Input: 97500 (dark bg, white, rounded-lg)
+
+- Label: "Amount (BTC)"
+  Input: 0.00
+
+- Percentage circle slider (0% position, green circle handle)
+
+- 4 quick buttons row: [25%] [50%] [75%] [100%]
+  Dark bg, border, rounded, white text
+
+- Label: "Total (USDT)"
+  Input: 0.00 (read-only, darker bg)
+
+- Fee row: "Fee (0.1%)" gray left | "$0.0000" gray right
+- Available row: wallet icon + "Available (USDT)" | "0 USDT" right
+
+- Full-width button: "Buy BTC" 
+  Neon green bg, black bold text, rounded-lg, h-12
+
+── BOTTOM TAB BAR ──
+Fixed bottom: ≡ Orders | ⏱ History | ↗ Positions
+Gray icons and text, active = white
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 6: MARKETS (/markets)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Page heading:
+- "Markets" white bold large
+- "Explore and trade cryptocurrencies" gray
+
+Top Gainers Card (dark bg, rounded-xl):
+- 🔥 fire icon + "Top Gainers" white
+- Rows: [coin icon] [SYMBOL] [price gray] [green badge with ↗ %]
+  PEPE — $0 — +11.76%
+  FET — $2.1 — +9.38%
+  SEI — $0.48 — +9.09%
+
+Top Losers Card (dark bg, rounded-xl):
+- ⚡ red icon + "Top Losers" white
+- Rows: [coin icon] [SYMBOL] [price] [red badge with ↘ %]
+  AVAX — $42.2 — -4.74%
+  ADA — $0.95 — -4.04%
+  LTC — $108 — -2.88%
+
+Search + Filter:
+- Full-width input: 🔍 "Search markets..." dark bg
+- Filter tabs: [All] (dark active, white text) | [☆] | [Gainers] | [Losers]
+
+Markets Table:
+Column headers: [empty star] | Name ↕ | Price ↕ | 24h ↕ | Action
+(gray small, subtle border bottom)
+
+Each row:
+[☆ star outline] [coin icon] [SYMBOL] | [price] | [% badge] | [Trade btn]
+
+Trade button: neon green bg, black text, rounded-lg, px-4 py-2
+Starred coins (BTC, ETH): filled yellow star ★
+
+Full coin list with exact data:
+BTC  — $97,500.00 — +2.58% — ★ Trade
+ETH  — $3,450.45  — -2.41% — ★ Trade
+XRP  — $2.35      — +5.38% — ☆ Trade
+BNB  — $680.00    — +2.29% — ☆ Trade
+SOL  — $185.75    — +4.65% — ☆ Trade
+DOGE — $0.32      — +6.67% — ☆ Trade
+ADA  — $0.95      — -4.04% — ☆ Trade
+TRX  — $0.24      — +4.35% — ☆ Trade
+AVAX — $42.20     — -4.74% — ☆ Trade
+LINK — $24.00     — +5.49% — ☆ Trade
+SHIB — $0.00      — +4.76% — ☆ Trade
+SUI  — $4.20      — +8.25% — ☆ Trade
+XLM  — $0.42      — +5.00% — ☆ Trade
+DOT  — $7.50      — +4.90% — ☆ Trade
+HBAR — $0.28      — +7.69% — ☆ Trade
+BCH  — $485.00    — +2.65% — ☆ Trade
+UNI  — $14.50     — +4.92% — ☆ Trade
+LDO  — $1.90      — +4.97% — ☆ Trade
+GALA — $0.04      — +7.69% — ☆ Trade
+JASMY— $0.03      — +6.67% — ☆ Trade
+SAND — $0.58      — +5.45% — ☆ Trade
+FLOW — $0.85      — +4.94% — ☆ Trade
+XTZ  — $1.20      — +4.35% — ☆ Trade
+EOS  — $0.82      — +3.80% — ☆ Trade
+AXS  — $7.20      — +5.11% — ☆ Trade
+EGLD — $42.00     — +5.26% — ☆ Trade
+IOTA — $0.32      — +6.67% — ☆ Trade
+DYDX — $1.60      — +5.26% — ☆ Trade
+MANA — $0.52      — +6.12% — ☆ Trade
+NEO  — $14.50     — +4.70% — ☆ Trade
+SNX  — $2.80      — +5.26% — ☆ Trade
+CFX  — $0.18      — +5.88% — ☆ Trade
+ROSE — $0.11      — +5.77% — ☆ Trade
+CRV  — $0.58      — +5.45% — ☆ Trade
+CAKE — $2.40      — +5.26% — ☆ Trade
+AGIX — $0.52      — +8.33% — ☆ Trade
+KAVA — $0.52      — +4.00% — ☆ Trade
+COMP — $68.00     — +4.94% — ☆ Trade
+KSM  — $32.00     — +4.92% — ☆ Trade
+1INCH— $0.42      — +5.00% — ☆ Trade
+WOO  — $0.28      — +7.69% — ☆ Trade
+TWT  — $1.20      — +5.26% — ☆ Trade
+BLUR — $0.32      — +6.67% — ☆ Trade
+ZIL  — $0.02      — +4.35% — ☆ Trade
+BAT  — $0.28      — +3.70% — ☆ Trade
+DASH — $32.00     — +3.90% — ☆ Trade
+CELO — $0.72      — +5.88% — ☆ Trade
+SUSHI— $1.20      — +5.26% — ☆ Trade
+LRC  — $0.22      — +4.76% — ☆ Trade
+GMX  — $28.00     — +5.07% — ☆ Trade
+YFI  — $8,500.00  — +5.20% — ☆ Trade
+MAGIC— $0.62      — +6.90% — ☆ Trade
+OCEAN— $0.48      — +6.67% — ☆ Trade
+ONE  — $0.02      — +5.88% — ☆ Trade
+WAVES— $2.20      — +4.76% — ☆ Trade
+STORJ— $0.58      — +5.45% — ☆ Trade
+ENJ  — $0.22      — +4.76% — ☆ Trade
+ICX  — $0.22      — +4.76% — ☆ Trade
+AUDIO— $0.18      — +5.88% — ☆ Trade
+OMG  — $0.58      — +5.45% — ☆ Trade
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PAGE 7: DEPOSIT (/deposit)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3-Step Progress Indicator:
+[1] ——— [2] ——— [3]
+Green circle = completed/active steps
+Dark circle = incomplete
+Connecting line between steps 
+(green line between completed, dark for upcoming)
+
+── STEP 1: Enter Amount ──
+Title: "Enter Amount" white bold
+Subtitle: "How much do you want to deposit?" gray
+Label: "Amount (USD)"
+Input: "$  100.00" (dollar sign prefix, dark bg)
+Helper: "Minimum deposit: $50" gray small
+
+Quick amount buttons (4 in a row):
+[$50] [$100] [$250] [$500]
+Outlined style (dark bg, border #2a2a2a, white text, rounded-lg)
+
+"Continue →" — green full-width button, rounded-lg
+
+── STEP 2: Select Currency & Network ──
+Title: "Select Currency & Network"
+Subtitle: "Depositing $50.00" gray
+
+Label: "Select Cryptocurrency"
+Dropdown (full width, dark bg, rounded-lg):
+  Closed state: "Select a cryptocurrency" placeholder + chevron
+  Open state dropdown list:
+  [BTC orange icon] BTC — Bitcoin
+  [ETH gray icon]   ETH — Ethereum
+  [USDT green icon] USDT — Tether
+  [USDC blue icon]  USDC — USD Coin
+  [TRX red icon]    TRX — Tron
+
+"← Back" — full-width outlined dark button
+"⊞ Generate Address" — green full-width button with QR icon
+
+── DEPOSIT HISTORY ──
+Section below form:
+Clock icon + "Deposit History" white heading
+Empty state: diagonal arrow icon + "No deposit history" gray
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## COMPONENT FILE STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+src/
+├── components/
+│   ├── Logo.jsx
+│   ├── Header.jsx (public)
+│   ├── AuthHeader.jsx (post-login)
+│   ├── SideDrawer.jsx
+│   ├── TickerBar.jsx
+│   ├── SparklineChart.jsx
+│   ├── AssetCard.jsx
+│   ├── StatCard.jsx
+│   ├── OrderBook.jsx
+│   ├── RecentTrades.jsx
+│   ├── OrderForm.jsx
+│   ├── MarketTable.jsx
+│   └── DepositStepper.jsx
+├── pages/
+│   ├── Landing.jsx
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   ├── Dashboard.jsx
+│   ├── Trade.jsx
+│   ├── Markets.jsx
+│   └── Deposit.jsx
+├── data/
+│   └── mockData.js (all coin data, order book, trades)
+└── App.jsx (React Router setup)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## INTERACTIONS & STATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Side drawer: opens/closes on hamburger click 
+  (slide-in from right with dark overlay behind)
+- Buy/Sell toggle: swaps green button label between 
+  "Buy BTC" and "Sell BTC", and colors the active tab
+- Limit/Market tab: shows/hides price input field
+- Order form % buttons: update amount field proportionally
+- Markets search: filters coin list in real-time
+- Markets filter tabs (All/Gainers/Losers): 
+  filters coin list
+- Star toggle: fills/unfills star icon on click
+- Deposit stepper: clicking Continue advances 
+  from step 1 → 2 → 3, Back goes backward
+- Cryptocurrency dropdown in deposit: opens/closes list
+- Toast notification on dashboard: 
+  appears on load, auto-dismisses after 3 seconds
+- Ticker bar: infinite CSS animation scrolling left
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## MOCK AUTH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use React Context + localStorage for auth state.
+Username stored = "Abdulwadud" for welcome message.
+Login form → set isLoggedIn = true → redirect /dashboard
+Register form → same flow
+Logout icon → clears state → redirect /login
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- React 18 + Vite
+- React Router v6
+- Tailwind CSS (pure black theme)
+- Lucide React (all icons)
+- Recharts (candlestick chart on trade page)
+- Framer Motion (drawer slide, toast, page transitions)
+- NO external UI libraries — pure Tailwind
+
+Build the full app now. All pages fully functional 
+with mock data. Mobile-first responsive design.
