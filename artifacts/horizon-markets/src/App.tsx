@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
+import { LivePricesProvider } from "@/context/LivePricesContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import Landing from "@/pages/Landing";
@@ -25,43 +26,29 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      
+
       <Route path="/dashboard">
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
+        <ProtectedRoute><Dashboard /></ProtectedRoute>
       </Route>
       <Route path="/trade">
-        <ProtectedRoute>
-          <Trade />
-        </ProtectedRoute>
+        <ProtectedRoute><Trade /></ProtectedRoute>
       </Route>
       <Route path="/markets">
-        <ProtectedRoute>
-          <Markets />
-        </ProtectedRoute>
+        <ProtectedRoute><Markets /></ProtectedRoute>
       </Route>
       <Route path="/deposit">
-        <ProtectedRoute>
-          <Deposit />
-        </ProtectedRoute>
+        <ProtectedRoute><Deposit /></ProtectedRoute>
       </Route>
       <Route path="/withdraw">
-        <ProtectedRoute>
-          <Withdraw />
-        </ProtectedRoute>
+        <ProtectedRoute><Withdraw /></ProtectedRoute>
       </Route>
       <Route path="/bots">
-        <ProtectedRoute>
-          <Bots />
-        </ProtectedRoute>
+        <ProtectedRoute><Bots /></ProtectedRoute>
       </Route>
       <Route path="/profile">
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
+        <ProtectedRoute><Profile /></ProtectedRoute>
       </Route>
-      
+
       <Route component={NotFound} />
     </Switch>
   );
@@ -71,11 +58,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <AuthProvider>
-            <Router />
-          </AuthProvider>
-        </WouterRouter>
+        <LivePricesProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <AuthProvider>
+              <Router />
+            </AuthProvider>
+          </WouterRouter>
+        </LivePricesProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
