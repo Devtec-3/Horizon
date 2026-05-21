@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { User, LogOut, Menu, Search, Wallet, BarChart2, TrendingUp, LayoutDashboard, Bot, ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { LogOut, Menu, Search, Wallet, BarChart2, TrendingUp, LayoutDashboard, Bot, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { Logo } from "./Logo";
 import { useAuth } from "@/context/AuthContext";
 
@@ -9,11 +9,11 @@ interface AuthHeaderProps {
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/trade", label: "Trade", icon: TrendingUp },
-  { href: "/markets", label: "Markets", icon: BarChart2 },
-  { href: "/deposit", label: "Deposit", icon: ArrowUpRight },
-  { href: "/withdraw", label: "Withdraw", icon: ArrowDownLeft },
-  { href: "/bots", label: "Bots", icon: Bot },
+  { href: "/trade",     label: "Trade",     icon: TrendingUp },
+  { href: "/markets",   label: "Markets",   icon: BarChart2 },
+  { href: "/deposit",   label: "Deposit",   icon: ArrowUpRight },
+  { href: "/withdraw",  label: "Withdraw",  icon: ArrowDownLeft },
+  { href: "/bots",      label: "Bots",      icon: Bot },
 ];
 
 export function AuthHeader({ onMenuClick }: AuthHeaderProps) {
@@ -30,7 +30,6 @@ export function AuthHeader({ onMenuClick }: AuthHeaderProps) {
             <Logo />
           </Link>
 
-          {/* Horizontal nav — hidden on mobile */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map(({ href, label }) => {
               const isActive = location === href;
@@ -39,7 +38,7 @@ export function AuthHeader({ onMenuClick }: AuthHeaderProps) {
                   <button
                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                       isActive
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-[#00e676]/10 text-[#00e676]"
                         : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     }`}
                   >
@@ -51,39 +50,46 @@ export function AuthHeader({ onMenuClick }: AuthHeaderProps) {
           </nav>
         </div>
 
-        {/* Center: Search bar — hidden until lg */}
+        {/* Center: Search — lg only */}
         <div className="hidden lg:flex flex-1 max-w-md">
           <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
               placeholder="Search markets…"
-              className="w-full pl-9 pr-3 py-1.5 bg-card border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              className="w-full pl-9 pr-3 py-1.5 bg-card border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#00e676] transition-colors"
             />
           </div>
         </div>
 
         {/* Right: Balance + icons */}
         <div className="flex items-center gap-1 sm:gap-2">
-          {/* Balance — hidden on tiny screens */}
           <div className="hidden sm:flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-md bg-card border border-border">
-            <Wallet className="h-4 w-4 text-primary" />
+            <Wallet className="h-4 w-4 text-[#00e676]" />
             <span className="text-xs sm:text-sm font-medium font-mono text-foreground">$0.00</span>
           </div>
 
-          {/* Profile */}
+          {/* Profile — WHITE icon */}
           <button
             onClick={() => navigate("/profile")}
-            className="h-9 w-9 flex items-center justify-center rounded-md text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 transition-colors"
+            className="h-9 w-9 flex items-center justify-center rounded-md text-white hover:text-white/80 hover:bg-white/10 transition-colors"
             data-testid="btn-profile"
           >
-            <User className="h-4 w-4 sm:h-5 sm:w-5" />
+            <svg
+              width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="2"
+              strokeLinecap="round" strokeLinejoin="round"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
           </button>
 
-          {/* Logout */}
+          {/* Logout — RED */}
           <button
             onClick={logout}
-            className="h-9 w-9 flex items-center justify-center rounded-md text-destructive hover:text-destructive hover:bg-destructive/10 transition-colors"
+            className="h-9 w-9 flex items-center justify-center rounded-md transition-colors hover:bg-[#ef4444]/10"
+            style={{ color: "#ef4444" }}
             data-testid="btn-logout"
           >
             <LogOut className="h-4 w-4 sm:h-5 sm:w-5" />

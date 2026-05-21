@@ -1,0 +1,373 @@
+Fix ALL issues below. Do not add anything new.
+Only fix what is listed. Keep everything else unchanged.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 1: MARKETS PAGE — Top Gainers & Losers Cards
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CURRENT WRONG: Shows numbered list (1,2,3,4,5) 
+with colored dots, NO prices, NO coin icons.
+
+CORRECT: Each card shows exactly 3 rows only.
+Each row has: coin circle icon + symbol + price + badge
+
+TOP GAINERS CARD (bg #111, border-left 3px #00e676, 
+border-radius 14px, padding 16px, margin 0 16px 12px):
+
+Header: 🔥 + "Top Gainers" white bold font-size 15px
+
+3 rows only:
+Row layout: display flex, align-items center, 
+gap 10px, margin-bottom 10px
+
+[coin circle 28px — bg color+20%opacity, 
+ border color+40%, border-radius 50%,
+ font-size 10px font-weight 800 color same as coin]
+[SYMBOL white bold font-size 14px flex-1]
+[price gray font-size 13px]
+[badge: bg #16532d, color #00e676, font-size 11px,
+ font-weight 700, padding 3px 8px, border-radius 6px,
+ text: "↗ +11.76%"]
+
+Row 1: PEPE circle (green) | PEPE | $0 | ↗ +11.76%
+Row 2: FET circle (blue)   | FET  | $2.1 | ↗ +9.38%
+Row 3: SEI circle (purple) | SEI  | $0.48 | ↗ +9.09%
+
+TOP LOSERS CARD (bg #111, border-left 3px #ef4444,
+border-radius 14px, padding 16px, margin 0 16px 12px):
+
+Header: ⚡ red + "Top Losers" white bold font-size 15px
+
+3 rows only:
+Row 1: AVAX circle (red)  | AVAX | $42.2 | ↘ -4.74%
+Row 2: ADA circle (blue)  | ADA  | $0.95 | ↘ -4.04%
+Row 3: LTC circle (gray)  | LTC  | $108  | ↘ -2.88%
+
+Badge for losers: bg #7f1d1d, color #ef4444, 
+text "↘ -4.74%" same structure
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 2: DELETE "Price Charts (24h)" Section
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This section DOES NOT EXIST in the original website.
+Delete it completely:
+- The "Price Charts (24h)" heading
+- The 2x2 grid of BTC / ETH / SOL / XRP sparkline cards
+- All code related to this section
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 3: MARKETS TABLE — Fix Overlapping Layout
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CURRENT WRONG: Text overlapping — price shown inside 
+coin icon, columns merged, "NAMEPRICE 24H CHANGE" 
+all on one line.
+
+CORRECT table structure:
+
+TABLE HEADER:
+display: grid
+grid-template-columns: 30px 1fr 100px 75px 75px
+padding: 8px 16px
+border-bottom: 1px solid #1a1a1a
+
+5 separate header cells:
+[empty div] | "Name ↕" | "Price ↕" | "24h ↕" | "Action"
+All: color #9ca3af, font-size 11px
+
+EACH COIN ROW:
+display: grid  
+grid-template-columns: 30px 1fr 100px 75px 75px
+padding: 12px 16px
+align-items: center
+border-bottom: 1px solid #0f0f0f
+
+Cell 1 (30px): Star toggle only
+  ★ filled #eab308 if starred
+  ☆ outline #4b5563 if not
+  font-size 17px, bg none, border none, cursor pointer
+
+Cell 2 (1fr): Coin icon + name ONLY, NO PRICE HERE
+  display flex, align-items center, gap 8px
+  - Circle 32px, border-radius 50%
+    bg: coinColor + '22' (transparent)
+    border: 1px solid coinColor + '55'
+    font-size 10px, font-weight 800, color coinColor
+    Text: first 3 chars of symbol
+  - Right of circle:
+    Line 1: symbol — white bold font-size 13px
+    Line 2: symbol+"/USDT" — gray font-size 10px
+
+Cell 3 (100px): PRICE ONLY, text-align right
+  font-size 13px, font-weight 600, color white
+  font-variant-numeric: tabular-nums
+
+Cell 4 (75px): % change ONLY, text-align right
+  If positive: color #00e676, font-size 12px, font-weight 600
+  If negative: color #ef4444, font-size 12px, font-weight 600
+  Format: "+2.58%" or "-2.41%"
+
+Cell 5 (75px): Trade button
+  bg #00e676, color #000, font-weight 700
+  font-size 11px, padding 7px 10px
+  border-radius 8px, border none, cursor pointer
+
+CRITICAL: Price must ONLY appear in Cell 3.
+NEVER put price inside the coin icon circle.
+NEVER put price in Cell 2.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 4: BOTS PAGE — Complete Rebuild
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DELETE EVERYTHING currently on the bots page:
+- "Automated algorithmic trading strategies" subtitle
+- "Bot trading is in beta" green banner
+- Grid Bot card
+- DCA Bot card  
+- Momentum Bot card
+- Any Start Bot / Stop Bot buttons
+- Risk Level badges
+- Avg Return stats
+
+REBUILD with exactly this structure:
+
+── PAGE HEADER (padding 20px 16px 0) ──
+Flex row, align-items flex-start, gap 12px:
+
+Left: dark green square icon container
+  bg #0d2b15, border-radius 12px, padding 10px
+  Inside: monitor/cpu SVG icon, stroke #00e676, 22px
+
+Right: 
+  "Trading Bots" — white, font-weight 800, font-size 22px
+  "Automate your trading strategy" — 
+  color #9ca3af, font-size 13px, margin-top 2px
+
+── CARD 1: UPLOAD TRADING BOT ──
+bg #111111, border 1px solid #1e1e1e
+border-radius 14px, padding 18px
+margin 16px 16px 14px
+
+Card header (flex row, gap 8px, margin-bottom 16px):
+  upload SVG icon stroke #00e676 size 18px
+  "UPLOAD TRADING BOT" white bold font-size 15px 
+  letter-spacing 0.05em
+
+Drag & Drop Zone:
+  border: 2px dashed #00e676
+  border-radius: 12px
+  padding: 36px 20px
+  text-align: center
+  margin-bottom: 14px
+  cursor: pointer
+  
+  Inside (top to bottom):
+  1. Circle: width 48px, height 48px
+     bg #1a1a1a, border-radius 50%, margin auto
+     Upload arrow SVG inside, stroke #9ca3af size 24px
+  2. "Drag & drop your bot file here"
+     color white, font-weight 700, font-size 14px
+     margin-top 12px
+  3. "or click to browse"
+     color #9ca3af, font-size 13px, margin-top 4px
+  4. "Supports .py, .js, .ts, .json, .zip files"
+     color #6b7280, font-size 11px, margin-top 6px
+
+Upload button:
+  width 100%, bg #00e676, color #000
+  font-size 14px, font-weight 700
+  padding 13px, border-radius 10px
+  border none, cursor pointer
+  Content: [cpu icon 16px] "Upload Trading Bot"
+  display flex, align-items center, 
+  justify-content center, gap 8px
+
+── DIVIDER ──
+display flex, align-items center, gap 12px
+margin 4px 16px 14px
+
+[line: flex 1, height 1px, bg #1e1e1e]
+["OR": color #9ca3af, font-size 13px]
+[line: flex 1, height 1px, bg #1e1e1e]
+
+── CARD 2: ACTIVATE WITH PASSKEY ──
+bg #111111, border 1px solid #1e1e1e
+border-radius 14px, padding 18px
+margin 0 16px 14px
+
+Header (flex row, gap 8px, margin-bottom 0):
+  key SVG icon stroke #00e676 size 18px
+  "ACTIVATE WITH PASSKEY" white bold font-size 15px
+  letter-spacing 0.05em uppercase
+
+Thin divider: border-top 1px solid #1e1e1e, margin 12px 0
+
+Body text (centered):
+  color #9ca3af, font-size 13px, line-height 1.6
+  margin-bottom 14px
+  "Already have a trading bot passkey? Enter it 
+   below to activate your bot instantly."
+
+Passkey input container:
+  bg #1a1a1a, border 1px solid #2a2a2a
+  border-radius 10px, padding 12px 14px
+  display flex, align-items center, gap 8px
+  margin-bottom 12px
+  
+  Inside: [key icon 16px gray] 
+  [input: bg none, border none, color white,
+   font-size 14px, outline none, flex 1,
+   placeholder "Enter your trading bot passkey"]
+
+Submit button:
+  width 100%, bg #00e676, color #000
+  font-size 14px, font-weight 700
+  padding 13px, border-radius 10px, border none
+  display flex, align-items center, 
+  justify-content center, gap 8px
+  Content: [activity icon 16px] "Submit Passkey"
+
+Helper text below button:
+  color #9ca3af, font-size 11px, text-align center
+  margin-top 10px, line-height 1.5
+  "Passkeys are provided by authorized bot developers.
+   Contact support if you need assistance."
+
+── CARD 3: BOT SETTINGS ──
+bg #111111, border 1px solid #1e1e1e
+border-radius 14px, padding 18px
+margin 0 16px 14px
+
+Header (flex, gap 8px, margin-bottom 4px):
+  settings/gear SVG stroke #00e676 18px
+  "Bot Settings" white bold font-size 15px
+
+Sub (margin-bottom 16px):
+  "Configure your bot before starting"
+  color #9ca3af, font-size 13px
+
+Field 1:
+  Label: "Trade Amount ($)" color #9ca3af font-size 13px
+  Input: defaultValue="10"
+  bg #1a1a1a, border 1px solid #2a2a2a
+  border-radius 10px, padding 12px 14px
+  color white, font-size 14px, outline none
+  width 100%, margin-bottom 14px
+
+Field 2:
+  Label: "Trade Interval" color #9ca3af font-size 13px
+  Dropdown (select element, same styling as input above):
+  Options: 1 minute | 5 minutes | 15 minutes | 1 hour | 1 day
+  Default: 1 minute, margin-bottom 14px
+
+Field 3:
+  Label: "Trading Asset" color #9ca3af font-size 13px
+  Dropdown (select element, same styling):
+  Options: EUR/USD | BTC/USDT | ETH/USDT | BNB/USDT | SOL/USDT
+  Default: EUR/USD
+
+── CARD 4: MY BOTS ──
+bg #111111, border 1px solid #1e1e1e
+border-radius 14px, padding 18px
+margin 0 16px 40px
+
+Header (flex, gap 8px, margin-bottom 14px):
+  bot/monitor SVG stroke #00e676 18px
+  "My Bots (0)" white bold font-size 15px
+
+Empty state (text-align center, padding 24px 0):
+  Bot emoji or SVG: font-size 40px color #4b5563
+  "No bots added yet"
+  color white, font-size 14px, margin-top 8px
+  "Enter a passkey above to add a trading bot"
+  color #9ca3af, font-size 12px, margin-top 4px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 5: REGISTER PAGE — Country Dropdown
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The phone number country code picker must:
+1. Show full list of 70+ world countries
+2. Have a search input at top that filters in real-time
+3. Be scrollable (max-height 200px overflow-y auto)
+4. Default to 🇺🇸 United States +1
+5. Each row: [flag] [name flex-1] [+code gray]
+
+Add these to country list at minimum:
+US +1, UK +44, Nigeria +234, India +91, 
+China +86, Germany +49, France +33, Japan +81,
+Brazil +55, Russia +7, South Africa +27,
+UAE +971, Saudi Arabia +966, Egypt +20,
+Kenya +254, Ghana +233, Morocco +212,
+Algeria +213, Ivory Coast +225, Cameroon +237,
+Ethiopia +251, Tanzania +255, Uganda +256,
+Mexico +52, Argentina +54, Chile +56,
+Colombia +57, Australia +61, New Zealand +64,
+Singapore +65, Malaysia +60, Indonesia +62,
+Philippines +63, Thailand +66, Vietnam +84,
+South Korea +82, Pakistan +92, Bangladesh +880,
+Iran +98, Turkey +90, Israel +972,
+Qatar +974, Kuwait +965, Italy +39,
+Spain +34, Portugal +351, Netherlands +31,
+Belgium +32, Switzerland +41, Sweden +46,
+Norway +47, Denmark +45, Poland +48,
+Ukraine +380, Greece +30, Canada +1,
+Iraq +964, Jordan +962, Oman +968,
+Taiwan +886, Hong Kong +852, Czech Rep +420
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 6: LOGO — Match Original Exactly
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The logo must show:
+LEFT: SVG icon — rising candlestick bars sitting 
+on a horizon/arc shape. Bars go from short left 
+to tall middle to shorter right. Colors: 
+dark teal #00695c for short bars, 
+bright green #00e676 for tall center bars,
+arc/base in dark green #0a3d1f
+
+RIGHT of icon (flex column):
+  "HORIZON" — white, font-weight 800, 
+   font-size 14px (header) or 18px (landing nav),
+   letter-spacing 0.08em
+  "MARKETS" — color #00e676, font-weight 600,
+   font-size 8px (header) or 10px (landing),
+   letter-spacing 0.2em
+
+The person/profile icon in header: 
+  color must be WHITE (not purple/violet)
+  stroke white, fill none
+
+The logout icon in header:
+  color must be RED #ef4444
+  It is an arrow-right-from-square shape
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 7: GENERAL STYLE CONSISTENCY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ALL cards: bg #111111, border 1px solid #1e1e1e
+   border-radius 14px
+
+2. ALL green action buttons: bg #00e676, color #000,
+   font-weight 700, border-radius 10px, 
+   NO border, NO box-shadow
+
+3. ALL inputs on focus: 
+   border-color: #00e676 (green glow)
+   outline: none
+
+4. ALL page content: padding-bottom minimum 40px
+
+5. Scrollbar styling:
+   ::-webkit-scrollbar { width: 4px }
+   ::-webkit-scrollbar-thumb { background: #333; 
+   border-radius: 2px }
+
+6. Body and root: background #000000
+
+Apply ALL fixes above. 
+Do not change anything not listed here.

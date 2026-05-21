@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Star, Flame, Zap } from "lucide-react";
+import { Search, Flame, Zap } from "lucide-react";
 import { AuthHeader } from "@/components/AuthHeader";
 import { SideDrawer } from "@/components/SideDrawer";
 import { TickerBar } from "@/components/TickerBar";
@@ -40,8 +40,7 @@ export default function Markets() {
       <SideDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <TickerBar />
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6">
-        {/* Page header */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 pb-10">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-foreground tracking-tight">Markets</h1>
           <p className="text-muted-foreground text-sm mt-1">
@@ -49,35 +48,98 @@ export default function Markets() {
           </p>
         </div>
 
-        {/* Top mini cards */}
+        {/* Top Gainers & Losers cards — FIX 1 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-          <div className="bg-card border border-border rounded-xl overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+          {/* Top Gainers */}
+          <div
+            style={{
+              background: "#111111",
+              borderRadius: 14,
+              padding: 16,
+              border: "1px solid #1e1e1e",
+              borderLeft: "3px solid #00e676",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-4">
               <Flame className="w-4 h-4 text-orange-400" />
-              <span className="text-foreground font-semibold text-sm">Top Gainers (24h)</span>
+              <span className="text-white font-bold" style={{ fontSize: 15 }}>Top Gainers</span>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-[10px] px-4 py-2">
-              {[["PEPE", "+11.76%"], ["FET", "+9.38%"], ["SEI", "+9.09%"]].map(([s, c]) => (
-                <div key={s} className="flex flex-col items-center gap-0.5">
-                  <span className="text-foreground font-medium text-xs">{s}</span>
-                  <span className="text-success font-mono text-[11px] font-medium">{c}</span>
+            {[
+              { symbol: "PEPE", price: "$0",    change: "+11.76%", color: "#00e676" },
+              { symbol: "FET",  price: "$2.1",  change: "+9.38%",  color: "#7B61FF" },
+              { symbol: "SEI",  price: "$0.48", change: "+9.09%",  color: "#9945FF" },
+            ].map((coin) => (
+              <div key={coin.symbol} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                <div
+                  style={{
+                    width: 28, height: 28, borderRadius: "50%",
+                    backgroundColor: coin.color + "33",
+                    border: `1px solid ${coin.color}66`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 10, fontWeight: 800, color: coin.color, flexShrink: 0,
+                  }}
+                >
+                  {coin.symbol.slice(0, 3)}
                 </div>
-              ))}
-            </div>
+                <span style={{ color: "white", fontWeight: 700, fontSize: 14, flex: 1 }}>{coin.symbol}</span>
+                <span style={{ color: "#9ca3af", fontSize: 13 }}>{coin.price}</span>
+                <span
+                  style={{
+                    background: "#16532d", color: "#00e676",
+                    fontSize: 11, fontWeight: 700,
+                    padding: "3px 8px", borderRadius: 6,
+                  }}
+                >
+                  ↗ {coin.change}
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="bg-card border border-border rounded-xl overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
-              <Zap className="w-4 h-4 text-destructive" />
-              <span className="text-foreground font-semibold text-sm">Top Losers (24h)</span>
+
+          {/* Top Losers */}
+          <div
+            style={{
+              background: "#111111",
+              borderRadius: 14,
+              padding: 16,
+              border: "1px solid #1e1e1e",
+              borderLeft: "3px solid #ef4444",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <Zap className="w-4 h-4" style={{ color: "#ef4444" }} />
+              <span className="text-white font-bold" style={{ fontSize: 15 }}>Top Losers</span>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-[10px] px-4 py-2">
-              {[["AVAX", "-4.74%"], ["ADA", "-4.04%"], ["LTC", "-2.88%"]].map(([s, c]) => (
-                <div key={s} className="flex flex-col items-center gap-0.5">
-                  <span className="text-foreground font-medium text-xs">{s}</span>
-                  <span className="text-destructive font-mono text-[11px] font-medium">{c}</span>
+            {[
+              { symbol: "AVAX", price: "$42.2", change: "-4.74%", color: "#E84142" },
+              { symbol: "ADA",  price: "$0.95", change: "-4.04%", color: "#0033AD" },
+              { symbol: "LTC",  price: "$108",  change: "-2.88%", color: "#BFBBBB" },
+            ].map((coin) => (
+              <div key={coin.symbol} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                <div
+                  style={{
+                    width: 28, height: 28, borderRadius: "50%",
+                    backgroundColor: coin.color + "33",
+                    border: `1px solid ${coin.color}66`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 10, fontWeight: 800, color: coin.color, flexShrink: 0,
+                  }}
+                >
+                  {coin.symbol.slice(0, 3)}
                 </div>
-              ))}
-            </div>
+                <span style={{ color: "white", fontWeight: 700, fontSize: 14, flex: 1 }}>{coin.symbol}</span>
+                <span style={{ color: "#9ca3af", fontSize: 13 }}>{coin.price}</span>
+                <span
+                  style={{
+                    background: "#7f1d1d", color: "#ef4444",
+                    fontSize: 11, fontWeight: 700,
+                    padding: "3px 8px", borderRadius: 6,
+                  }}
+                >
+                  ↘ {coin.change}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -90,12 +152,12 @@ export default function Markets() {
               placeholder="Search coins or pairs..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition-colors"
+              style={{ borderColor: search ? "#00e676" : undefined }}
               data-testid="input-search-markets"
             />
           </div>
 
-          {/* Filter tabs */}
           <div className="flex gap-1.5">
             {tabs.map((f) => (
               <button
@@ -114,72 +176,109 @@ export default function Markets() {
           </div>
         </div>
 
-        {/* Table */}
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          {/* Header row */}
-          <div className="grid items-center px-4 py-2.5 text-[11px] text-muted-foreground uppercase tracking-wider font-medium border-b border-border"
-            style={{ gridTemplateColumns: "28px 2fr 1fr 90px 80px 80px" }}
+        {/* Table — FIX 3: proper 5-column grid, no overlap */}
+        <div style={{ background: "#111111", border: "1px solid #1e1e1e", borderRadius: 14, overflow: "hidden" }}>
+          {/* Header */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "30px 1fr 100px 75px 75px",
+              padding: "8px 16px",
+              borderBottom: "1px solid #1a1a1a",
+            }}
           >
             <div />
-            <div>Name</div>
-            <div className="text-right">Price</div>
-            <div className="text-right">24h Change</div>
-            <div className="text-right hidden sm:block">Volume</div>
-            <div />
+            <div style={{ color: "#9ca3af", fontSize: 11 }}>Name ↕</div>
+            <div style={{ color: "#9ca3af", fontSize: 11, textAlign: "right" }}>Price ↕</div>
+            <div style={{ color: "#9ca3af", fontSize: 11, textAlign: "right" }}>24h ↕</div>
+            <div style={{ color: "#9ca3af", fontSize: 11, textAlign: "right" }}>Action</div>
           </div>
 
           {/* Rows */}
           {filtered.map((market) => (
             <div
               key={market.symbol}
-              className="grid items-center px-4 py-3 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors group"
-              style={{ gridTemplateColumns: "28px 2fr 1fr 90px 80px 80px" }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "30px 1fr 100px 75px 75px",
+                padding: "12px 16px",
+                alignItems: "center",
+                borderBottom: "1px solid #0f0f0f",
+              }}
             >
-              {/* Star */}
+              {/* Cell 1: Star */}
               <button
                 onClick={() => toggleStar(market.symbol)}
-                className="text-muted-foreground hover:text-yellow-500 transition-colors"
+                style={{ background: "none", border: "none", cursor: "pointer", fontSize: 17, padding: 0, lineHeight: 1 }}
                 data-testid={`star-${market.symbol}`}
               >
-                <Star
-                  className={`w-3.5 h-3.5 ${starred[market.symbol] ? "fill-yellow-500 text-yellow-500" : ""}`}
-                />
+                {starred[market.symbol] ? (
+                  <span style={{ color: "#eab308" }}>★</span>
+                ) : (
+                  <span style={{ color: "#4b5563" }}>☆</span>
+                )}
               </button>
 
-              {/* Name */}
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center shrink-0">
-                  <span className="text-foreground text-[9px] font-bold">{market.symbol.slice(0,3)}</span>
+              {/* Cell 2: Coin icon + name ONLY — no price */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div
+                  style={{
+                    width: 32, height: 32, borderRadius: "50%",
+                    backgroundColor: "#ffffff11",
+                    border: "1px solid #ffffff22",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 10, fontWeight: 800, color: "white", flexShrink: 0,
+                  }}
+                >
+                  {market.symbol.slice(0, 3)}
                 </div>
-                <div className="min-w-0">
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-foreground font-semibold text-sm">{market.symbol}</span>
-                    <span className="text-muted-foreground text-[10px]">/USDT</span>
-                  </div>
-                  <div className="text-muted-foreground text-xs truncate">{market.name}</div>
+                <div>
+                  <div style={{ color: "white", fontWeight: 700, fontSize: 13 }}>{market.symbol}</div>
+                  <div style={{ color: "#9ca3af", fontSize: 10 }}>{market.symbol}/USDT</div>
                 </div>
               </div>
 
-              {/* Price */}
-              <div className="text-foreground font-mono text-sm font-medium text-right">{market.price}</div>
-
-              {/* Change */}
-              <div className="text-right">
-                <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-medium ${market.positive ? "text-success" : "text-destructive"}`}>
-                  {market.change}
-                </span>
+              {/* Cell 3: Price ONLY */}
+              <div
+                style={{
+                  textAlign: "right",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "white",
+                  fontVariantNumeric: "tabular-nums",
+                  fontFamily: "JetBrains Mono, monospace",
+                }}
+              >
+                {market.price}
               </div>
 
-              {/* Volume */}
-              <div className="text-muted-foreground font-mono text-xs text-right hidden sm:block">
-                {market.volume}
+              {/* Cell 4: % Change ONLY */}
+              <div
+                style={{
+                  textAlign: "right",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: market.positive ? "#00e676" : "#ef4444",
+                  fontFamily: "JetBrains Mono, monospace",
+                }}
+              >
+                {market.change}
               </div>
 
-              {/* Trade button */}
-              <div className="text-right">
+              {/* Cell 5: Trade button */}
+              <div style={{ textAlign: "right" }}>
                 <Link href="/trade">
                   <button
-                    className="text-xs font-semibold px-3 py-1.5 rounded-md bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover:opacity-100"
+                    style={{
+                      background: "#00e676",
+                      color: "#000",
+                      fontWeight: 700,
+                      fontSize: 11,
+                      padding: "7px 10px",
+                      borderRadius: 8,
+                      border: "none",
+                      cursor: "pointer",
+                    }}
                     data-testid={`trade-${market.symbol}`}
                   >
                     Trade

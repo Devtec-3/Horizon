@@ -5,7 +5,6 @@ import { Wallet, TrendingUp, TrendingDown, Activity, Check, Flame, Zap, ArrowRig
 import { AuthHeader } from "@/components/AuthHeader";
 import { SideDrawer } from "@/components/SideDrawer";
 import { TickerBar } from "@/components/TickerBar";
-import { SparklineChart } from "@/components/SparklineChart";
 import { trendingAssets, topGainers, topLosers } from "@/data/mockData";
 import { useAuth } from "@/context/AuthContext";
 
@@ -50,11 +49,11 @@ export default function Dashboard() {
         )}
       </AnimatePresence>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 space-y-6 pb-10">
         {/* Page title */}
         <div>
           <h1 className="text-2xl font-bold text-foreground tracking-tight">
-            Welcome back, <span className="text-primary">{username}</span>
+            Welcome back, <span style={{ color: "#00e676" }}>{username}</span>
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
             Here's your portfolio overview and market snapshot.
@@ -64,10 +63,10 @@ export default function Dashboard() {
         {/* Stat cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {[
-            { label: "Portfolio Balance", value: "$0.00", sub: "USDT equivalent", icon: Wallet,       color: "text-muted-foreground" },
-            { label: "24h Volume",        value: "$58.2B", sub: "Global market",  icon: Activity,     color: "text-muted-foreground" },
-            { label: "Top Gainer",        value: "PEPE",   sub: "+11.76% today",  icon: TrendingUp,   color: "text-success" },
-            { label: "Top Loser",         value: "AVAX",   sub: "-4.74% today",   icon: TrendingDown, color: "text-destructive" },
+            { label: "Portfolio Balance", value: "$0.00",  sub: "USDT equivalent", icon: Wallet,       color: "text-muted-foreground" },
+            { label: "24h Volume",        value: "$58.2B", sub: "Global market",   icon: Activity,     color: "text-muted-foreground" },
+            { label: "Top Gainer",        value: "PEPE",   sub: "+11.76% today",   icon: TrendingUp,   color: "text-success" },
+            { label: "Top Loser",         value: "AVAX",   sub: "-4.74% today",    icon: TrendingDown, color: "text-destructive" },
           ].map((card) => {
             const Icon = card.icon;
             return (
@@ -90,13 +89,12 @@ export default function Dashboard() {
             <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-border">
               <h2 className="text-foreground font-semibold text-sm sm:text-base">Trending Assets</h2>
               <Link href="/markets">
-                <button className="flex items-center gap-1 text-primary text-xs hover:text-primary/80 transition-colors font-medium">
+                <button className="flex items-center gap-1 text-xs hover:opacity-80 transition-opacity font-medium" style={{ color: "#00e676" }}>
                   View All <ArrowRight className="w-3 h-3" />
                 </button>
               </Link>
             </div>
 
-            {/* Table header */}
             <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2 px-4 sm:px-5 py-2 text-muted-foreground text-[11px] uppercase tracking-wider font-medium border-b border-border">
               <div>Asset</div>
               <div className="text-right">Price</div>
@@ -106,28 +104,25 @@ export default function Dashboard() {
 
             {trendingAssets.map((asset) => (
               <Link href="/trade" key={asset.symbol}>
-                <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2 items-center px-4 sm:px-5 py-3 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer group">
+                <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2 items-center px-4 sm:px-5 py-3 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors cursor-pointer">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold text-white"
+                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                       style={{ backgroundColor: asset.color + "33", border: `1px solid ${asset.color}55` }}
                     >
-                      <span style={{ color: asset.color }}>{asset.symbol.slice(0,1)}</span>
+                      <span style={{ color: asset.color, fontSize: 10, fontWeight: 800 }}>{asset.symbol.slice(0, 1)}</span>
                     </div>
                     <div className="min-w-0">
                       <div className="text-foreground font-semibold text-sm">{asset.symbol}</div>
                       <div className="text-muted-foreground text-xs truncate">{asset.name}</div>
                     </div>
                   </div>
-
                   <div className="text-foreground text-sm font-mono font-medium text-right">{asset.price}</div>
-
                   <div className="text-right">
                     <span className={`text-xs font-mono font-medium ${asset.positive ? "text-success" : "text-destructive"}`}>
                       {asset.change}
                     </span>
                   </div>
-
                   <div className="text-muted-foreground text-xs font-mono text-right">{asset.volume}</div>
                 </div>
               </Link>
@@ -136,70 +131,97 @@ export default function Dashboard() {
 
           {/* Gainers & Losers */}
           <div className="space-y-4">
-            <div className="bg-card border border-border rounded-xl overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+            {/* Top Gainers */}
+            <div
+              className="rounded-[14px] p-4 overflow-hidden"
+              style={{ background: "#111111", borderLeft: "3px solid #00e676", border: "1px solid #1e1e1e", borderLeftWidth: 3, borderLeftColor: "#00e676" }}
+            >
+              <div className="flex items-center gap-2 mb-3">
                 <Flame className="w-4 h-4 text-orange-400" />
-                <h3 className="text-foreground font-semibold text-sm">Top Gainers</h3>
+                <h3 className="text-white font-bold" style={{ fontSize: 15 }}>Top Gainers</h3>
               </div>
-              <div>
-                {topGainers.map((coin) => (
-                  <div key={coin.symbol} className="flex items-center justify-between px-4 py-2.5 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground text-xs w-4 font-mono">{coin.rank}</span>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: coin.color }} />
-                      <span className="text-foreground text-xs font-medium">{coin.symbol}</span>
-                      <span className="text-muted-foreground text-xs font-mono hidden sm:block">{coin.price}</span>
-                    </div>
-                    <span className="text-success text-xs font-mono font-medium">{coin.change}</span>
+              {[
+                { symbol: "PEPE", price: "$0",     change: "+11.76%", color: "#00e676" },
+                { symbol: "FET",  price: "$2.1",   change: "+9.38%",  color: "#7B61FF" },
+                { symbol: "SEI",  price: "$0.48",  change: "+9.09%",  color: "#9945FF" },
+              ].map((coin) => (
+                <div key={coin.symbol} className="flex items-center gap-2.5 mb-2.5 last:mb-0">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    style={{
+                      backgroundColor: coin.color + "33",
+                      border: `1px solid ${coin.color}66`,
+                      fontSize: 10,
+                      fontWeight: 800,
+                      color: coin.color,
+                    }}
+                  >
+                    {coin.symbol.slice(0, 3)}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-card border border-border rounded-xl overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
-                <Zap className="w-4 h-4 text-destructive" />
-                <h3 className="text-foreground font-semibold text-sm">Top Losers</h3>
-              </div>
-              <div>
-                {topLosers.map((coin) => (
-                  <div key={coin.symbol} className="flex items-center justify-between px-4 py-2.5 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground text-xs w-4 font-mono">{coin.rank}</span>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: coin.color }} />
-                      <span className="text-foreground text-xs font-medium">{coin.symbol}</span>
-                      <span className="text-muted-foreground text-xs font-mono hidden sm:block">{coin.price}</span>
-                    </div>
-                    <span className="text-destructive text-xs font-mono font-medium">{coin.change}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mini sparkline cards */}
-        <div>
-          <h2 className="text-foreground font-semibold text-sm mb-3">Price Charts (24h)</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {trendingAssets.map((asset) => (
-              <Link href="/trade" key={`spark-${asset.symbol}`}>
-                <div className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-colors cursor-pointer">
-                  <div className="px-3 pt-3 pb-1 flex items-center justify-between">
-                    <div>
-                      <div className="text-foreground font-semibold text-sm">{asset.symbol}</div>
-                      <div className="text-foreground font-mono font-medium text-sm">{asset.price}</div>
-                    </div>
-                    <span className={`text-xs font-mono font-medium ${asset.positive ? "text-success" : "text-destructive"}`}>
-                      {asset.change}
-                    </span>
-                  </div>
-                  <div className="h-14">
-                    <SparklineChart data={asset.sparkData} color={asset.positive ? "#00ff88" : "#ef4444"} height={56} />
-                  </div>
+                  <span className="text-white font-bold text-sm flex-1">{coin.symbol}</span>
+                  <span className="text-muted-foreground" style={{ fontSize: 13 }}>{coin.price}</span>
+                  <span
+                    className="font-bold"
+                    style={{
+                      background: "#16532d",
+                      color: "#00e676",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      padding: "3px 8px",
+                      borderRadius: 6,
+                    }}
+                  >
+                    ↗ {coin.change}
+                  </span>
                 </div>
-              </Link>
-            ))}
+              ))}
+            </div>
+
+            {/* Top Losers */}
+            <div
+              className="rounded-[14px] p-4 overflow-hidden"
+              style={{ background: "#111111", border: "1px solid #1e1e1e", borderLeft: "3px solid #ef4444", borderLeftWidth: 3, borderLeftColor: "#ef4444" }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-4 h-4" style={{ color: "#ef4444" }} />
+                <h3 className="text-white font-bold" style={{ fontSize: 15 }}>Top Losers</h3>
+              </div>
+              {[
+                { symbol: "AVAX", price: "$42.2", change: "-4.74%", color: "#E84142" },
+                { symbol: "ADA",  price: "$0.95", change: "-4.04%", color: "#0033AD" },
+                { symbol: "LTC",  price: "$108",  change: "-2.88%", color: "#BFBBBB" },
+              ].map((coin) => (
+                <div key={coin.symbol} className="flex items-center gap-2.5 mb-2.5 last:mb-0">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                    style={{
+                      backgroundColor: coin.color + "33",
+                      border: `1px solid ${coin.color}66`,
+                      fontSize: 10,
+                      fontWeight: 800,
+                      color: coin.color,
+                    }}
+                  >
+                    {coin.symbol.slice(0, 3)}
+                  </div>
+                  <span className="text-white font-bold text-sm flex-1">{coin.symbol}</span>
+                  <span className="text-muted-foreground" style={{ fontSize: 13 }}>{coin.price}</span>
+                  <span
+                    className="font-bold"
+                    style={{
+                      background: "#7f1d1d",
+                      color: "#ef4444",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      padding: "3px 8px",
+                      borderRadius: 6,
+                    }}
+                  >
+                    ↘ {coin.change}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>
