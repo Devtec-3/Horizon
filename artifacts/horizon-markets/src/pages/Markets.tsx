@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Search, Flame, Zap, Star } from "lucide-react";
+import { Search, Star, Flame, Zap } from "lucide-react";
 import { AuthHeader } from "@/components/AuthHeader";
 import { SideDrawer } from "@/components/SideDrawer";
+import { TickerBar } from "@/components/TickerBar";
 import { marketsList } from "@/data/mockData";
 import { Link } from "wouter";
 
@@ -11,280 +12,174 @@ export default function Markets() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<FilterType>("All");
-
   const [starred, setStarred] = useState<Record<string, boolean>>(
     marketsList.reduce((acc, m) => ({ ...acc, [m.symbol]: m.starred }), {})
   );
 
-  const toggleStar = (symbol: string) => {
-    setStarred((prev) => ({ ...prev, [symbol]: !prev[symbol] }));
-  };
+  const toggleStar = (sym: string) => setStarred((p) => ({ ...p, [sym]: !p[sym] }));
 
   const filtered = marketsList
-    .filter((market) => {
-      if (
-        search &&
-        !market.symbol.toLowerCase().includes(search.toLowerCase()) &&
-        !market.name.toLowerCase().includes(search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filter === "★" && !starred[market.symbol]) return false;
-      if (filter === "Gainers" && !market.positive) return false;
-      if (filter === "Losers" && market.positive) return false;
+    .filter((m) => {
+      if (search && !m.symbol.toLowerCase().includes(search.toLowerCase()) && !m.name.toLowerCase().includes(search.toLowerCase())) return false;
+      if (filter === "★" && !starred[m.symbol]) return false;
+      if (filter === "Gainers" && !m.positive) return false;
+      if (filter === "Losers" && m.positive) return false;
       return true;
     })
     .sort((a, b) => {
-      if (filter === "Gainers") {
-        return parseFloat(b.change) - parseFloat(a.change);
-      }
-      if (filter === "Losers") {
-        return parseFloat(a.change) - parseFloat(b.change);
-      }
+      if (filter === "Gainers") return parseFloat(b.change) - parseFloat(a.change);
+      if (filter === "Losers") return parseFloat(a.change) - parseFloat(b.change);
       return 0;
     });
 
   const tabs: FilterType[] = ["All", "★", "Gainers", "Losers"];
 
   return (
-    <div className="min-h-screen bg-black flex flex-col pb-10" style={{ maxWidth: 430, margin: "0 auto" }}>
+    <div className="min-h-screen bg-background flex flex-col">
       <AuthHeader onMenuClick={() => setDrawerOpen(true)} />
       <SideDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <TickerBar />
 
-      <div className="px-4 pt-6 pb-2">
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#ffffff" }}>Markets</h1>
-        <p style={{ color: "#9ca3af", fontSize: 14, marginTop: 4 }}>
-          Explore and trade cryptocurrencies
-        </p>
-      </div>
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6">
+        {/* Page header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">Markets</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            {marketsList.length} trading pairs — live prices
+          </p>
+        </div>
 
-      {/* Top Gainers / Losers mini cards */}
-      <div className="grid grid-cols-2 gap-3 px-4 mt-2">
-        <div
-          style={{
-            background: "#111111",
-            border: "1px solid #1e1e1e",
-            borderRadius: 12,
-            padding: 12,
-          }}
-        >
-          <div className="flex items-center gap-1.5 mb-2 pb-2" style={{ borderBottom: "1px solid #1e1e1e" }}>
-            <Flame className="text-orange-400 w-4 h-4" />
-            <h3 className="text-white text-sm font-semibold">Top Gainers</h3>
+        {/* Top mini cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          <div className="bg-card border border-border rounded-xl overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+              <Flame className="w-4 h-4 text-orange-400" />
+              <span className="text-foreground font-semibold text-sm">Top Gainers (24h)</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-[10px] px-4 py-2">
+              {[["PEPE", "+11.76%"], ["FET", "+9.38%"], ["SEI", "+9.09%"]].map(([s, c]) => (
+                <div key={s} className="flex flex-col items-center gap-0.5">
+                  <span className="text-foreground font-medium text-xs">{s}</span>
+                  <span className="text-success font-mono text-[11px] font-medium">{c}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="space-y-1.5">
-            {[["PEPE", "+11.76%"], ["FET", "+9.38%"], ["SEI", "+9.09%"]].map(([sym, ch]) => (
-              <div key={sym} className="flex justify-between items-center">
-                <span className="text-xs text-white font-medium">{sym}</span>
-                <span
-                  style={{
-                    color: "#00e676",
-                    background: "rgba(0,230,118,0.1)",
-                    padding: "2px 6px",
-                    borderRadius: 4,
-                    fontSize: 10,
-                    fontWeight: 700,
-                  }}
-                >
-                  {ch}
-                </span>
-              </div>
+          <div className="bg-card border border-border rounded-xl overflow-hidden">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border">
+              <Zap className="w-4 h-4 text-destructive" />
+              <span className="text-foreground font-semibold text-sm">Top Losers (24h)</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-[10px] px-4 py-2">
+              {[["AVAX", "-4.74%"], ["ADA", "-4.04%"], ["LTC", "-2.88%"]].map(([s, c]) => (
+                <div key={s} className="flex flex-col items-center gap-0.5">
+                  <span className="text-foreground font-medium text-xs">{s}</span>
+                  <span className="text-destructive font-mono text-[11px] font-medium">{c}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search coins or pairs..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              data-testid="input-search-markets"
+            />
+          </div>
+
+          {/* Filter tabs */}
+          <div className="flex gap-1.5">
+            {tabs.map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  filter === f
+                    ? "bg-card border border-border/60 text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                data-testid={`filter-${f}`}
+              >
+                {f}
+              </button>
             ))}
           </div>
         </div>
 
-        <div
-          style={{
-            background: "#111111",
-            border: "1px solid #1e1e1e",
-            borderRadius: 12,
-            padding: 12,
-          }}
-        >
-          <div className="flex items-center gap-1.5 mb-2 pb-2" style={{ borderBottom: "1px solid #1e1e1e" }}>
-            <Zap className="text-red-500 w-4 h-4" />
-            <h3 className="text-white text-sm font-semibold">Top Losers</h3>
-          </div>
-          <div className="space-y-1.5">
-            {[["AVAX", "-4.74%"], ["ADA", "-4.04%"], ["LTC", "-2.88%"]].map(([sym, ch]) => (
-              <div key={sym} className="flex justify-between items-center">
-                <span className="text-xs text-white font-medium">{sym}</span>
-                <span
-                  style={{
-                    color: "#ef4444",
-                    background: "rgba(239,68,68,0.1)",
-                    padding: "2px 6px",
-                    borderRadius: 4,
-                    fontSize: 10,
-                    fontWeight: 700,
-                  }}
-                >
-                  {ch}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Search */}
-      <div className="px-4 mt-4 relative">
-        <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-        <input
-          type="text"
-          placeholder="Search markets..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            background: "#1a1a1a",
-            width: "100%",
-            paddingLeft: 40,
-            paddingRight: 16,
-            paddingTop: 10,
-            paddingBottom: 10,
-            borderRadius: 10,
-            border: "1px solid #2a2a2a",
-            color: "#ffffff",
-            fontSize: 14,
-            outline: "none",
-            boxSizing: "border-box",
-          }}
-          onFocus={(e) => (e.target.style.borderColor = "#00e676")}
-          onBlur={(e) => (e.target.style.borderColor = "#2a2a2a")}
-          data-testid="input-search-markets"
-        />
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex gap-2 mx-4 mt-3">
-        {tabs.map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            style={{
-              padding: "6px 14px",
-              borderRadius: 8,
-              fontSize: 14,
-              fontWeight: filter === f ? 600 : 400,
-              cursor: "pointer",
-              background: filter === f ? "#000000" : "transparent",
-              border: filter === f ? "1px solid rgba(255,255,255,0.2)" : "none",
-              color: filter === f ? "#ffffff" : "#9ca3af",
-              transition: "all 0.15s",
-            }}
-            data-testid={`filter-${f}`}
+        {/* Table */}
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          {/* Header row */}
+          <div className="grid items-center px-4 py-2.5 text-[11px] text-muted-foreground uppercase tracking-wider font-medium border-b border-border"
+            style={{ gridTemplateColumns: "28px 2fr 1fr 90px 80px 80px" }}
           >
-            {f}
-          </button>
-        ))}
-      </div>
+            <div />
+            <div>Name</div>
+            <div className="text-right">Price</div>
+            <div className="text-right">24h Change</div>
+            <div className="text-right hidden sm:block">Volume</div>
+            <div />
+          </div>
 
-      {/* Table */}
-      <div className="mx-4 mt-3 pb-6">
-        <div
-          className="grid gap-2 text-gray-400 px-2 py-2"
-          style={{
-            gridTemplateColumns: "28px 1fr 80px 60px 60px",
-            fontSize: 11,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            fontWeight: 500,
-            borderBottom: "1px solid #2a2a2a",
-          }}
-        >
-          <div />
-          <div>Name</div>
-          <div className="text-right">Price</div>
-          <div className="text-right">24h</div>
-          <div />
-        </div>
-
-        <div className="flex flex-col">
+          {/* Rows */}
           {filtered.map((market) => (
             <div
               key={market.symbol}
-              className="grid gap-2 items-center px-2 py-3"
-              style={{
-                gridTemplateColumns: "28px 1fr 80px 60px 60px",
-                borderBottom: "1px solid #1e1e1e",
-              }}
+              className="grid items-center px-4 py-3 border-b border-border last:border-0 hover:bg-secondary/50 transition-colors group"
+              style={{ gridTemplateColumns: "28px 2fr 1fr 90px 80px 80px" }}
             >
+              {/* Star */}
               <button
                 onClick={() => toggleStar(market.symbol)}
-                style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                className="text-muted-foreground hover:text-yellow-500 transition-colors"
                 data-testid={`star-${market.symbol}`}
               >
                 <Star
-                  size={16}
-                  className={starred[market.symbol] ? "fill-yellow-500 text-yellow-500" : "text-gray-500"}
+                  className={`w-3.5 h-3.5 ${starred[market.symbol] ? "fill-yellow-500 text-yellow-500" : ""}`}
                 />
               </button>
 
-              <div className="flex items-center gap-2 min-w-0">
-                <div
-                  style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #374151, #111827)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <span style={{ color: "#ffffff", fontSize: 9, fontWeight: 700 }}>
-                    {market.symbol.slice(0, 3)}
-                  </span>
+              {/* Name */}
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-secondary border border-border flex items-center justify-center shrink-0">
+                  <span className="text-foreground text-[9px] font-bold">{market.symbol.slice(0,3)}</span>
                 </div>
-                <div className="truncate">
+                <div className="min-w-0">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-white font-bold text-sm truncate">{market.symbol}</span>
-                    <span className="text-gray-500 text-[10px]">/USDT</span>
+                    <span className="text-foreground font-semibold text-sm">{market.symbol}</span>
+                    <span className="text-muted-foreground text-[10px]">/USDT</span>
                   </div>
-                  <div className="text-gray-500 text-xs truncate">{market.name}</div>
+                  <div className="text-muted-foreground text-xs truncate">{market.name}</div>
                 </div>
               </div>
 
-              <div
-                className="text-right font-medium"
-                style={{ color: "#ffffff", fontSize: 13, fontVariantNumeric: "tabular-nums" }}
-              >
-                {market.price}
-              </div>
+              {/* Price */}
+              <div className="text-foreground font-mono text-sm font-medium text-right">{market.price}</div>
 
+              {/* Change */}
               <div className="text-right">
-                <span
-                  style={{
-                    display: "inline-block",
-                    padding: "2px 6px",
-                    borderRadius: 4,
-                    fontSize: 10,
-                    fontWeight: 700,
-                    fontVariantNumeric: "tabular-nums",
-                    background: market.positive
-                      ? "rgba(0,230,118,0.1)"
-                      : "rgba(239,68,68,0.1)",
-                    color: market.positive ? "#00e676" : "#ef4444",
-                  }}
-                >
+                <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-medium ${market.positive ? "text-success" : "text-destructive"}`}>
                   {market.change}
                 </span>
               </div>
 
+              {/* Volume */}
+              <div className="text-muted-foreground font-mono text-xs text-right hidden sm:block">
+                {market.volume}
+              </div>
+
+              {/* Trade button */}
               <div className="text-right">
                 <Link href="/trade">
                   <button
-                    style={{
-                      background: "#00e676",
-                      color: "#000000",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      padding: "6px 10px",
-                      borderRadius: 8,
-                      border: "none",
-                      cursor: "pointer",
-                    }}
+                    className="text-xs font-semibold px-3 py-1.5 rounded-md bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover:opacity-100"
                     data-testid={`trade-${market.symbol}`}
                   >
                     Trade
@@ -295,12 +190,12 @@ export default function Markets() {
           ))}
 
           {filtered.length === 0 && (
-            <div className="text-center py-8 text-gray-500 text-sm">
-              No markets found.
+            <div className="text-center py-12 text-muted-foreground text-sm">
+              No markets found for "{search}"
             </div>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

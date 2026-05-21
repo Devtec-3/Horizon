@@ -1,93 +1,106 @@
+function spark(base: number, n = 20): number[] {
+  const seed = base;
+  const data = [seed];
+  let v = seed;
+  for (let i = 1; i < n; i++) {
+    const r = ((Math.sin(i * seed * 0.001 + i) + 1) / 2) * 0.04 - 0.02;
+    v = v * (1 + r);
+    data.push(v);
+  }
+  return data;
+}
+
 export const tickerItems = [
-  { symbol: "ETH", pair: "ETH/USDT", price: "2,130.25", color: "#627EEA" },
-  { symbol: "BNB", pair: "BNB/USDT", price: "644.30", color: "#F3BA2F" },
-  { symbol: "SOL", pair: "SOL/USDT", price: "84.95", color: "#9945FF" },
-  { symbol: "XRP", pair: "XRP/USDT", price: "1.3695", color: "#00AAE4" },
-  { symbol: "ADA", pair: "ADA/USDT", price: "0.2495", color: "#0033AD" },
-  { symbol: "DOGE", pair: "DOGE/USDT", price: "0.10361", color: "#C2A633" },
-  { symbol: "BTC", pair: "BTC/USDT", price: "97,500.00", color: "#F7931A" },
-  { symbol: "LINK", pair: "LINK/USDT", price: "24.00", color: "#2A5ADA" },
-  { symbol: "AVAX", pair: "AVAX/USDT", price: "42.20", color: "#E84142" },
+  { pair: "BTC/USDT",  price: "$97,523.40",  changeStr: "+2.58%",  color: "#F7931A", positive: true,  symbol: "BTC" },
+  { pair: "ETH/USDT",  price: "$3,421.75",   changeStr: "+1.84%",  color: "#627EEA", positive: true,  symbol: "ETH" },
+  { pair: "SOL/USDT",  price: "$182.30",      changeStr: "+4.12%",  color: "#9945FF", positive: true,  symbol: "SOL" },
+  { pair: "BNB/USDT",  price: "$598.10",      changeStr: "+0.93%",  color: "#F3BA2F", positive: true,  symbol: "BNB" },
+  { pair: "XRP/USDT",  price: "$0.5821",      changeStr: "+3.40%",  color: "#00B4D8", positive: true,  symbol: "XRP" },
+  { pair: "ADA/USDT",  price: "$0.4412",      changeStr: "-4.04%",  color: "#0033AD", positive: false, symbol: "ADA" },
+  { pair: "DOGE/USDT", price: "$0.1283",      changeStr: "+1.27%",  color: "#C2A633", positive: true,  symbol: "DOGE" },
+  { pair: "AVAX/USDT", price: "$35.72",       changeStr: "-4.74%",  color: "#E84142", positive: false, symbol: "AVAX" },
+  { pair: "LINK/USDT", price: "$14.88",       changeStr: "+2.11%",  color: "#2A5ADA", positive: true,  symbol: "LINK" },
+  { pair: "LTC/USDT",  price: "$80.43",       changeStr: "-2.88%",  color: "#BFBBBB", positive: false, symbol: "LTC" },
 ];
 
 export const trendingAssets = [
-  { symbol: "YFI", name: "yearn.finance", price: "$8,578.67", change: "+1.45%", positive: true, volume: "$490.23 B", sparkData: [85,87,84,88,90,87,91,89,92] },
-  { symbol: "MKR", name: "Maker", price: "$1,836.60", change: "+1.99%", positive: true, volume: "$210.10 B", sparkData: [180,183,181,185,187,184,188,186,190] },
-  { symbol: "AAVE", name: "Aave", price: "$185.35", change: "+3.39%", positive: true, volume: "$155.44 B", sparkData: [178,180,179,182,185,183,186,184,188] },
-  { symbol: "ZEC", name: "Zcash", price: "$52.28", change: "-2.93%", positive: false, volume: "$30.12 B", sparkData: [55,54,53,52,51,52,51,50,51] },
-  { symbol: "QNT", name: "Quant", price: "$117.31", change: "-1.12%", positive: false, volume: "$45.22 B", sparkData: [120,119,118,118,117,117,116,117,116] },
-  { symbol: "EGLD", name: "MultiversX", price: "$41.58", change: "-3.34%", positive: false, volume: "$25.90 B", sparkData: [44,43,43,42,42,41,41,41,40] },
+  { symbol: "BTC",  name: "Bitcoin",  price: "$97,523.40", change: "+2.58%", volume: "$48.2B", positive: true,  color: "#F7931A", sparkData: spark(97000) },
+  { symbol: "ETH",  name: "Ethereum", price: "$3,421.75",  change: "+1.84%", volume: "$19.8B", positive: true,  color: "#627EEA", sparkData: spark(3400)  },
+  { symbol: "SOL",  name: "Solana",   price: "$182.30",    change: "+4.12%", volume: "$5.1B",  positive: true,  color: "#9945FF", sparkData: spark(180)   },
+  { symbol: "XRP",  name: "Ripple",   price: "$0.5821",    change: "+3.40%", volume: "$3.7B",  positive: true,  color: "#00B4D8", sparkData: spark(5800)  },
 ];
 
 export const topGainers = [
-  { rank: 1, symbol: "BTC", price: "$77,408.08", change: "+454.83%", color: "#F7931A" },
-  { rank: 2, symbol: "IMX", price: "$1.59", change: "+3.98%", color: "#0EA5E9" },
-  { rank: 3, symbol: "GRT", price: "$0.281356", change: "+3.98%", color: "#6748EC" },
-  { rank: 4, symbol: "RNDR", price: "$8.44", change: "+3.89%", color: "#FF3D00" },
+  { rank: "1", symbol: "PEPE",  price: "$0.0000121", change: "+11.76%", color: "#00ff88" },
+  { rank: "2", symbol: "FET",   price: "$1.42",      change: "+9.38%",  color: "#7B61FF" },
+  { rank: "3", symbol: "SEI",   price: "$0.521",     change: "+9.09%",  color: "#9945FF" },
+  { rank: "4", symbol: "ARB",   price: "$1.12",      change: "+7.85%",  color: "#2D374B" },
+  { rank: "5", symbol: "OP",    price: "$2.31",      change: "+6.73%",  color: "#FF0420" },
 ];
 
 export const topLosers = [
-  { rank: 1, symbol: "BCH", price: "$368.90", change: "-10.50%", color: "#8DC351" },
-  { rank: 2, symbol: "SNX", price: "$2.80", change: "-3.96%", color: "#1AB2DA" },
-  { rank: 3, symbol: "ATOM", price: "$9.82", change: "-3.85%", color: "#6F7390" },
-  { rank: 4, symbol: "SUSHI", price: "$1.20", change: "-3.83%", color: "#FA52A0" },
-];
-
-export const orderBookAsks = [
-  { price: "97,597.50", amount: "0.4528", total: "44,191.164" },
-  { price: "97,695.00", amount: "1.7989", total: "175,742.677" },
-  { price: "97,792.50", amount: "0.2689", total: "26,294.341" },
-  { price: "97,890.00", amount: "1.4814", total: "145,011.342" },
-  { price: "97,987.50", amount: "1.4241", total: "139,540.209" },
-  { price: "98,085.00", amount: "0.9446", total: "92,649.209" },
-  { price: "98,182.50", amount: "1.2655", total: "124,251.035" },
-  { price: "98,280.00", amount: "0.2078", total: "20,421.482" },
-];
-
-export const orderBookBids = [
-  { price: "97,012.50", amount: "0.6584", total: "63,869.402" },
-  { price: "96,915.00", amount: "0.7361", total: "71,338.043" },
-  { price: "96,817.50", amount: "1.3499", total: "130,690.051" },
-];
-
-export const recentTrades = [
-  { price: "97,524.99", amount: "0.2394", time: "10:19:13", side: "buy" },
-  { price: "97,526.06", amount: "0.2517", time: "10:19:08", side: "buy" },
-  { price: "97,536.24", amount: "0.3683", time: "10:19:03", side: "sell" },
-  { price: "97,447.62", amount: "0.0961", time: "10:18:58", side: "sell" },
-  { price: "97,442.67", amount: "0.1675", time: "10:18:53", side: "sell" },
-  { price: "97,491.36", amount: "0.0214", time: "10:18:48", side: "buy" },
+  { rank: "1", symbol: "AVAX",  price: "$35.72",   change: "-4.74%",  color: "#E84142" },
+  { rank: "2", symbol: "ADA",   price: "$0.4412",  change: "-4.04%",  color: "#0033AD" },
+  { rank: "3", symbol: "LTC",   price: "$80.43",   change: "-2.88%",  color: "#BFBBBB" },
+  { rank: "4", symbol: "BCH",   price: "$234.10",  change: "-2.50%",  color: "#8DC351" },
+  { rank: "5", symbol: "ATOM",  price: "$8.72",    change: "-1.93%",  color: "#2E3148" },
 ];
 
 export const marketsList = [
-  { symbol: "BTC", name: "Bitcoin", price: "$97,500.00", change: "+2.58%", positive: true, starred: true },
-  { symbol: "ETH", name: "Ethereum", price: "$3,450.45", change: "-2.41%", positive: false, starred: true },
-  { symbol: "XRP", name: "XRP", price: "$2.35", change: "+5.38%", positive: true, starred: false },
-  { symbol: "BNB", name: "BNB", price: "$680.00", change: "+2.29%", positive: true, starred: false },
-  { symbol: "SOL", name: "Solana", price: "$185.75", change: "+4.65%", positive: true, starred: false },
-  { symbol: "DOGE", name: "Dogecoin", price: "$0.32", change: "+6.67%", positive: true, starred: false },
-  { symbol: "ADA", name: "Cardano", price: "$0.95", change: "-4.04%", positive: false, starred: false },
-  { symbol: "TRX", name: "TRON", price: "$0.24", change: "+4.35%", positive: true, starred: false },
-  { symbol: "AVAX", name: "Avalanche", price: "$42.20", change: "-4.74%", positive: false, starred: false },
-  { symbol: "LINK", name: "Chainlink", price: "$24.00", change: "+5.49%", positive: true, starred: false },
-  { symbol: "SHIB", name: "Shiba Inu", price: "$0.000025", change: "+4.76%", positive: true, starred: false },
-  { symbol: "SUI", name: "Sui", price: "$4.20", change: "+8.25%", positive: true, starred: false },
-  { symbol: "DOT", name: "Polkadot", price: "$7.50", change: "+4.90%", positive: true, starred: false },
-  { symbol: "HBAR", name: "Hedera", price: "$0.28", change: "+7.69%", positive: true, starred: false },
-  { symbol: "BCH", name: "Bitcoin Cash", price: "$485.00", change: "+2.65%", positive: true, starred: false },
-  { symbol: "UNI", name: "Uniswap", price: "$14.50", change: "+4.92%", positive: true, starred: false },
-  { symbol: "LDO", name: "Lido DAO", price: "$1.90", change: "+4.97%", positive: true, starred: false },
-  { symbol: "MATIC", name: "Polygon", price: "$0.85", change: "+3.20%", positive: true, starred: false },
-  { symbol: "NEAR", name: "NEAR Protocol", price: "$5.20", change: "+3.80%", positive: true, starred: false },
-  { symbol: "ARB", name: "Arbitrum", price: "$1.10", change: "+4.50%", positive: true, starred: false },
-  { symbol: "OP", name: "Optimism", price: "$2.40", change: "+5.00%", positive: true, starred: false },
-  { symbol: "ATOM", name: "Cosmos", price: "$9.82", change: "-3.85%", positive: false, starred: false },
-  { symbol: "SNX", name: "Synthetix", price: "$2.80", change: "-3.96%", positive: false, starred: false },
-  { symbol: "LTC", name: "Litecoin", price: "$108.00", change: "-2.88%", positive: false, starred: false },
-  { symbol: "SUSHI", name: "SushiSwap", price: "$1.20", change: "-3.83%", positive: false, starred: false },
-  { symbol: "YFI", name: "yearn.finance", price: "$8,500.00", change: "+5.20%", positive: true, starred: false },
-  { symbol: "MKR", name: "Maker", price: "$1,836.60", change: "+1.99%", positive: true, starred: false },
-  { symbol: "AAVE", name: "Aave", price: "$185.35", change: "+3.39%", positive: true, starred: false },
-  { symbol: "COMP", name: "Compound", price: "$68.00", change: "+4.94%", positive: true, starred: false },
-  { symbol: "CRV", name: "Curve DAO", price: "$0.58", change: "+5.45%", positive: true, starred: false },
+  { symbol: "BTC",   name: "Bitcoin",      price: "$97,523.40",  change: "+2.58%",  positive: true,  volume: "$48.2B",  mcap: "$1.92T",  starred: true  },
+  { symbol: "ETH",   name: "Ethereum",     price: "$3,421.75",   change: "+1.84%",  positive: true,  volume: "$19.8B",  mcap: "$411B",   starred: true  },
+  { symbol: "BNB",   name: "Binance Coin", price: "$598.10",     change: "+0.93%",  positive: true,  volume: "$2.1B",   mcap: "$88B",    starred: false },
+  { symbol: "SOL",   name: "Solana",       price: "$182.30",     change: "+4.12%",  positive: true,  volume: "$5.1B",   mcap: "$79B",    starred: false },
+  { symbol: "XRP",   name: "Ripple",       price: "$0.5821",     change: "+3.40%",  positive: true,  volume: "$3.7B",   mcap: "$64B",    starred: false },
+  { symbol: "ADA",   name: "Cardano",      price: "$0.4412",     change: "-4.04%",  positive: false, volume: "$1.2B",   mcap: "$15.6B",  starred: false },
+  { symbol: "DOGE",  name: "Dogecoin",     price: "$0.1283",     change: "+1.27%",  positive: true,  volume: "$1.8B",   mcap: "$18.1B",  starred: false },
+  { symbol: "AVAX",  name: "Avalanche",    price: "$35.72",      change: "-4.74%",  positive: false, volume: "$0.9B",   mcap: "$14.6B",  starred: false },
+  { symbol: "LINK",  name: "Chainlink",    price: "$14.88",      change: "+2.11%",  positive: true,  volume: "$0.7B",   mcap: "$8.8B",   starred: false },
+  { symbol: "LTC",   name: "Litecoin",     price: "$80.43",      change: "-2.88%",  positive: false, volume: "$0.6B",   mcap: "$5.9B",   starred: false },
+  { symbol: "PEPE",  name: "Pepe",         price: "$0.0000121",  change: "+11.76%", positive: true,  volume: "$2.2B",   mcap: "$5.1B",   starred: false },
+  { symbol: "FET",   name: "Fetch.ai",     price: "$1.42",       change: "+9.38%",  positive: true,  volume: "$0.5B",   mcap: "$1.2B",   starred: false },
+  { symbol: "SEI",   name: "Sei",          price: "$0.521",      change: "+9.09%",  positive: true,  volume: "$0.3B",   mcap: "$1.5B",   starred: false },
+  { symbol: "ARB",   name: "Arbitrum",     price: "$1.12",       change: "+7.85%",  positive: true,  volume: "$0.4B",   mcap: "$2.9B",   starred: false },
+  { symbol: "OP",    name: "Optimism",     price: "$2.31",       change: "+6.73%",  positive: true,  volume: "$0.35B",  mcap: "$2.4B",   starred: false },
+  { symbol: "BCH",   name: "Bitcoin Cash", price: "$234.10",     change: "-2.50%",  positive: false, volume: "$0.8B",   mcap: "$4.6B",   starred: false },
+  { symbol: "DOT",   name: "Polkadot",     price: "$7.18",       change: "+0.54%",  positive: true,  volume: "$0.4B",   mcap: "$9.9B",   starred: false },
+  { symbol: "MATIC", name: "Polygon",      price: "$0.832",      change: "-1.12%",  positive: false, volume: "$0.5B",   mcap: "$7.7B",   starred: false },
+  { symbol: "ATOM",  name: "Cosmos",       price: "$8.72",       change: "-1.93%",  positive: false, volume: "$0.3B",   mcap: "$3.4B",   starred: false },
+  { symbol: "UNI",   name: "Uniswap",      price: "$9.44",       change: "+1.50%",  positive: true,  volume: "$0.45B",  mcap: "$7.1B",   starred: false },
+];
+
+export const orderBookAsks = [
+  { price: "97,540.00", amount: "0.4821", total: "47,013.12", depth: 95 },
+  { price: "97,535.50", amount: "0.1234", total: "12,034.24", depth: 60 },
+  { price: "97,532.00", amount: "0.8800", total: "85,828.16", depth: 100 },
+  { price: "97,528.75", amount: "0.2100", total: "20,481.04", depth: 30 },
+  { price: "97,525.00", amount: "0.5500", total: "53,638.75", depth: 70 },
+];
+
+export const orderBookBids = [
+  { price: "97,515.50", amount: "0.6300", total: "61,434.77", depth: 85 },
+  { price: "97,510.00", amount: "1.2400", total: "120,912.40", depth: 100 },
+  { price: "97,505.25", amount: "0.3300", total: "32,176.73", depth: 45 },
+  { price: "97,500.00", amount: "0.9900", total: "96,525.00", depth: 90 },
+  { price: "97,495.75", amount: "0.4400", total: "42,898.13", depth: 55 },
+];
+
+export const recentTrades = [
+  { price: "97,528.75", amount: "0.0342", time: "14:22:08", side: "buy"  },
+  { price: "97,521.00", amount: "0.1120", time: "14:22:05", side: "sell" },
+  { price: "97,530.25", amount: "0.0588", time: "14:22:01", side: "buy"  },
+  { price: "97,515.50", amount: "0.2200", time: "14:21:58", side: "sell" },
+  { price: "97,519.00", amount: "0.0810", time: "14:21:55", side: "buy"  },
+  { price: "97,511.75", amount: "0.1440", time: "14:21:50", side: "sell" },
+  { price: "97,525.00", amount: "0.0230", time: "14:21:46", side: "buy"  },
+  { price: "97,505.00", amount: "0.3100", time: "14:21:43", side: "sell" },
+  { price: "97,532.00", amount: "0.0670", time: "14:21:40", side: "buy"  },
+  { price: "97,498.25", amount: "0.1880", time: "14:21:37", side: "sell" },
+];
+
+export const botTemplates = [
+  { id: "grid",      name: "Grid Bot",     description: "Buys low and sells high in a set range.",       profit: "+8.2%",  period: "7d",  risk: "Low",      pairs: "BTC/USDT", active: false },
+  { id: "dca",       name: "DCA Bot",      description: "Invests fixed amounts at regular intervals.",    profit: "+12.4%", period: "30d", risk: "Very Low",  pairs: "ETH/USDT", active: true  },
+  { id: "momentum",  name: "Momentum Bot", description: "Follows trends and rides momentum for gains.",  profit: "+31.7%", period: "14d", risk: "High",     pairs: "SOL/USDT", active: false },
+  { id: "arbitrage", name: "Arbitrage Bot",description: "Exploits price differences across pairs.",       profit: "+5.9%",  period: "7d",  risk: "Medium",   pairs: "Multiple", active: false },
 ];

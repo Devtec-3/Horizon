@@ -5,7 +5,7 @@ export function SparklineChart({
   height = 64,
 }: {
   data: number[];
-  color: "#00e676" | "#ef4444";
+  color: string;
   width?: string | number;
   height?: number;
 }) {
