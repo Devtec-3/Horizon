@@ -16,41 +16,105 @@ export default function Trade() {
   const [activeTab, setActiveTab] = useState("1D");
   const [chartType, setChartType] = useState("Area");
   const [bookTab, setBookTab] = useState("Both");
-  
+  const [bottomTab, setBottomTab] = useState("Orders");
+
   const [side, setSide] = useState<"buy" | "sell">("buy");
   const [orderType, setOrderType] = useState<"limit" | "market">("limit");
   const [price, setPrice] = useState("97500.00");
   const [amount, setAmount] = useState("");
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "#1a1a1a",
+    border: "1px solid #2a2a2a",
+    borderRadius: 10,
+    padding: "10px 12px",
+    color: "#ffffff",
+    fontSize: 13,
+    outline: "none",
+    fontVariantNumeric: "tabular-nums",
+    boxSizing: "border-box",
+  };
+
   return (
-    <div className="min-h-screen bg-black flex flex-col pb-20">
+    <div
+      className="min-h-screen bg-black flex flex-col"
+      style={{ maxWidth: 430, margin: "0 auto", paddingBottom: 56 }}
+    >
       <AuthHeader onMenuClick={() => setDrawerOpen(true)} />
       <SideDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
-      <div className="bg-[#111] rounded-xl mx-4 mt-4 p-4 flex items-center justify-between border border-[#1e1e1e]">
+      {/* Pair Bar */}
+      <div
+        style={{
+          background: "#111111",
+          borderRadius: 14,
+          margin: "16px 16px 0",
+          padding: 16,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          border: "1px solid #1e1e1e",
+        }}
+      >
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-[#F7931A] flex items-center justify-center">
-            <span className="text-white text-[10px] font-bold">BTC</span>
+          <div
+            style={{
+              width: 24,
+              height: 24,
+              borderRadius: "50%",
+              background: "#F7931A",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ color: "#ffffff", fontSize: 8, fontWeight: 700 }}>BTC</span>
           </div>
           <span className="font-bold text-white">BTC/USDT</span>
-          <ChevronDown className="text-gray-400 w-4 h-4 ml-1" />
+          <ChevronDown className="text-gray-400 w-4 h-4" />
         </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-white tabular-nums">$97,500.00</div>
+        <div
+          style={{
+            color: "#ffffff",
+            fontSize: 22,
+            fontWeight: 700,
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          $97,500.00
         </div>
-        <div className="text-[#00e676] font-medium text-sm tabular-nums">+2.58%</div>
+        <div style={{ color: "#00e676", fontWeight: 500, fontSize: 14, fontVariantNumeric: "tabular-nums" }}>
+          +2.58%
+        </div>
       </div>
 
-      <div className="bg-[#111] rounded-xl mx-4 mt-3 p-4 border border-[#1e1e1e]">
+      {/* Chart */}
+      <div
+        style={{
+          background: "#111111",
+          borderRadius: 14,
+          margin: "12px 16px 0",
+          padding: 16,
+          border: "1px solid #1e1e1e",
+        }}
+      >
         <div className="flex justify-between items-center mb-4">
           <div className="flex gap-1 bg-[#1a1a1a] p-1 rounded-lg">
             {["1H", "4H", "1D", "1W", "1M"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-2 py-0.5 text-xs rounded transition-colors ${
-                  activeTab === tab ? "bg-white text-black font-medium" : "text-gray-400 hover:text-white"
-                }`}
+                style={{
+                  padding: "2px 8px",
+                  fontSize: 11,
+                  borderRadius: 4,
+                  border: "none",
+                  cursor: "pointer",
+                  background: activeTab === tab ? "#ffffff" : "transparent",
+                  color: activeTab === tab ? "#000000" : "#9ca3af",
+                  fontWeight: activeTab === tab ? 600 : 400,
+                }}
               >
                 {tab}
               </button>
@@ -61,17 +125,23 @@ export default function Trade() {
               <button
                 key={tab}
                 onClick={() => setChartType(tab)}
-                className={`px-2 py-0.5 text-xs transition-colors ${
-                  chartType === tab ? "text-white font-medium" : "text-gray-400 hover:text-white"
-                }`}
+                style={{
+                  padding: "2px 6px",
+                  fontSize: 11,
+                  border: "none",
+                  cursor: "pointer",
+                  background: "transparent",
+                  color: chartType === tab ? "#ffffff" : "#9ca3af",
+                  fontWeight: chartType === tab ? 600 : 400,
+                }}
               >
                 {tab}
               </button>
             ))}
           </div>
         </div>
-        
-        <div className="h-48 w-full">
+
+        <div style={{ height: 192, width: "100%" }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={fakeChartData}>
               <defs>
@@ -80,223 +150,365 @@ export default function Trade() {
                   <stop offset="95%" stopColor="#00e676" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <Area 
-                type="monotone" 
-                dataKey="price" 
-                stroke="#00e676" 
-                fillOpacity={1} 
-                fill="url(#colorPrice)" 
+              <Area
+                type="monotone"
+                dataKey="price"
+                stroke="#00e676"
+                fillOpacity={1}
+                fill="url(#colorPrice)"
                 strokeWidth={2}
                 isAnimationActive={false}
+                dot={false}
               />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-4 mt-3">
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-white font-semibold">Order Book</h3>
-            <div className="flex gap-2">
-              {["Both", "Bids", "Asks"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setBookTab(tab)}
-                  className={`text-xs px-2 py-1 rounded transition-colors ${
-                    bookTab === tab ? "bg-[#1a1a1a] text-white" : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-2 text-gray-400 text-xs mb-2">
-            <div>Price</div>
-            <div className="text-right">Amount</div>
-            <div className="text-right">Total</div>
-          </div>
-          
-          <div className="space-y-[1px]">
-            {orderBookAsks.map((ask, i) => (
-              <div key={`ask-${i}`} className="grid grid-cols-3 gap-2 text-xs tabular-nums py-0.5 relative group cursor-pointer hover:bg-[#1a1a1a]">
-                <div className="absolute right-0 top-0 bottom-0 bg-[#ef4444]/10 z-0" style={{ width: `${Math.max(10, 100 - i * 10)}%` }} />
-                <div className="text-[#ef4444] z-10">{ask.price}</div>
-                <div className="text-white text-right z-10">{ask.amount}</div>
-                <div className="text-gray-400 text-right z-10">{ask.total}</div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="my-2 py-1 border-y border-[#1e1e1e] text-center text-sm font-medium text-gray-400">
-            Spread: $9.50
-          </div>
-          
-          <div className="space-y-[1px]">
-            {orderBookBids.map((bid, i) => (
-              <div key={`bid-${i}`} className="grid grid-cols-3 gap-2 text-xs tabular-nums py-0.5 relative group cursor-pointer hover:bg-[#1a1a1a]">
-                <div className="absolute right-0 top-0 bottom-0 bg-[#00e676]/10 z-0" style={{ width: `${Math.max(10, 80 - i * 15)}%` }} />
-                <div className="text-[#00e676] z-10">{bid.price}</div>
-                <div className="text-white text-right z-10">{bid.amount}</div>
-                <div className="text-gray-400 text-right z-10">{bid.total}</div>
-              </div>
+      {/* Order Book */}
+      <div
+        style={{
+          background: "#111111",
+          borderRadius: 14,
+          margin: "12px 16px 0",
+          padding: 16,
+          border: "1px solid #1e1e1e",
+        }}
+      >
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-white font-semibold">Order Book</h3>
+          <div className="flex gap-2">
+            {["Both", "Bids", "Asks"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setBookTab(tab)}
+                style={{
+                  fontSize: 11,
+                  padding: "3px 8px",
+                  borderRadius: 4,
+                  border: "none",
+                  cursor: "pointer",
+                  background: bookTab === tab ? "#1a1a1a" : "transparent",
+                  color: bookTab === tab ? "#ffffff" : "#9ca3af",
+                }}
+              >
+                {tab}
+              </button>
             ))}
           </div>
         </div>
 
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <h3 className="text-white font-semibold mb-3">Order</h3>
-          
-          <div className="grid grid-cols-2 gap-1 bg-[#1a1a1a] p-1 rounded-lg mb-4">
-            <button 
-              onClick={() => setSide("buy")}
-              className={`py-1.5 text-sm font-bold rounded-md transition-colors ${
-                side === "buy" ? "bg-[#00e676] text-black" : "text-gray-400 hover:text-white"
-              }`}
+        <div className="grid grid-cols-3 gap-2 text-gray-400 text-xs mb-2">
+          <div>Price</div>
+          <div className="text-right">Amount</div>
+          <div className="text-right">Total</div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          {orderBookAsks.map((ask, i) => (
+            <div
+              key={`ask-${i}`}
+              className="grid grid-cols-3 gap-2 text-xs tabular-nums py-0.5 relative cursor-pointer"
+              style={{ fontVariantNumeric: "tabular-nums" }}
             >
-              Buy
-            </button>
-            <button 
-              onClick={() => setSide("sell")}
-              className={`py-1.5 text-sm font-bold rounded-md transition-colors ${
-                side === "sell" ? "bg-[#ef4444] text-white" : "text-gray-400 hover:text-white"
-              }`}
-            >
-              Sell
-            </button>
-          </div>
-          
-          <div className="flex gap-4 mb-4 border-b border-[#1e1e1e] pb-2">
-            <button 
-              onClick={() => setOrderType("limit")}
-              className={`text-sm font-medium transition-colors ${
-                orderType === "limit" ? "text-white" : "text-gray-500 hover:text-gray-300"
-              }`}
-            >
-              Limit
-            </button>
-            <button 
-              onClick={() => setOrderType("market")}
-              className={`text-sm font-medium transition-colors ${
-                orderType === "market" ? "text-white" : "text-gray-500 hover:text-gray-300"
-              }`}
-            >
-              Market
-            </button>
-          </div>
-          
-          <div className="space-y-3">
-            {orderType === "limit" && (
-              <div>
-                <div className="flex justify-between mb-1">
-                  <label className="text-gray-400 text-xs">Price (USDT)</label>
-                </div>
-                <input 
-                  type="text" 
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-3 py-2 text-white tabular-nums focus:outline-none focus:border-gray-500 transition-colors"
-                />
-              </div>
-            )}
-            
-            <div>
-              <div className="flex justify-between mb-1">
-                <label className="text-gray-400 text-xs">Amount (BTC)</label>
-              </div>
-              <input 
-                type="text" 
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.00"
-                className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-3 py-2 text-white tabular-nums focus:outline-none focus:border-gray-500 transition-colors"
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  background: "rgba(239,68,68,0.1)",
+                  width: `${Math.max(10, 100 - i * 10)}%`,
+                  zIndex: 0,
+                }}
               />
+              <div style={{ color: "#ef4444", position: "relative", zIndex: 1 }}>{ask.price}</div>
+              <div className="text-white text-right" style={{ position: "relative", zIndex: 1 }}>{ask.amount}</div>
+              <div className="text-gray-400 text-right" style={{ position: "relative", zIndex: 1 }}>{ask.total}</div>
             </div>
-            
-            <div className="grid grid-cols-4 gap-2">
-              {[25, 50, 75, 100].map((pct) => (
-                <button 
-                  key={pct}
-                  onClick={() => setAmount(((pct / 100) * 1.5).toFixed(4))}
-                  className="bg-[#1a1a1a] border border-[#2a2a2a] hover:border-gray-500 rounded text-white text-xs py-1 transition-colors"
-                >
-                  {pct}%
-                </button>
-              ))}
-            </div>
-            
-            <div>
-              <div className="flex justify-between mb-1">
-                <label className="text-gray-400 text-xs">Total (USDT)</label>
-              </div>
-              <div className="w-full bg-[#0a0a0a] border border-[#1e1e1e] rounded-lg px-3 py-2 text-gray-400 tabular-nums">
-                {amount && price ? (parseFloat(amount) * parseFloat(price)).toFixed(2) : "0.00"}
-              </div>
-            </div>
-            
-            <div className="flex justify-between items-center py-2">
-              <span className="text-gray-400 text-xs">Fee (0.1%)</span>
-              <span className="text-gray-400 text-xs tabular-nums">
-                {amount ? (parseFloat(amount) * 0.001).toFixed(4) : "0.0000"}
-              </span>
-            </div>
-            
-            <div className="flex justify-between items-center pb-2">
-              <div className="flex items-center gap-1.5 text-gray-400">
-                <Wallet className="w-3 h-3" />
-                <span className="text-xs">Available (USDT)</span>
-              </div>
-              <span className="text-white text-xs font-medium tabular-nums">0.00</span>
-            </div>
-            
-            <button 
-              className={`w-full font-bold h-12 rounded-lg transition-colors ${
-                side === "buy" 
-                  ? "bg-[#00e676] hover:bg-[#00c853] text-black" 
-                  : "bg-[#ef4444] hover:bg-red-600 text-white"
-              }`}
-            >
-              {side === "buy" ? "Buy BTC" : "Sell BTC"}
-            </button>
-          </div>
+          ))}
         </div>
 
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e] md:col-span-2">
-          <h3 className="text-white font-semibold mb-3">Recent Trades</h3>
-          <div className="grid grid-cols-3 gap-2 text-gray-400 text-xs mb-2 border-b border-[#1e1e1e] pb-2">
-            <div>Price</div>
-            <div className="text-right">Amount</div>
-            <div className="text-right">Time</div>
-          </div>
-          <div className="space-y-2 pt-1">
-            {recentTrades.map((trade, i) => (
-              <div key={i} className="grid grid-cols-3 gap-2 text-xs tabular-nums">
-                <div className={trade.side === "buy" ? "text-[#00e676]" : "text-[#ef4444]"}>
-                  {trade.price}
-                </div>
-                <div className="text-white text-right">{trade.amount}</div>
-                <div className="text-gray-500 text-right">{trade.time}</div>
-              </div>
-            ))}
-          </div>
+        <div className="my-2 py-1 text-center text-sm font-medium text-gray-400" style={{ borderTop: "1px solid #1e1e1e", borderBottom: "1px solid #1e1e1e" }}>
+          Spread: $9.50
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          {orderBookBids.map((bid, i) => (
+            <div
+              key={`bid-${i}`}
+              className="grid grid-cols-3 gap-2 text-xs tabular-nums py-0.5 relative cursor-pointer"
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  background: "rgba(0,230,118,0.1)",
+                  width: `${Math.max(10, 80 - i * 15)}%`,
+                  zIndex: 0,
+                }}
+              />
+              <div style={{ color: "#00e676", position: "relative", zIndex: 1 }}>{bid.price}</div>
+              <div className="text-white text-right" style={{ position: "relative", zIndex: 1 }}>{bid.amount}</div>
+              <div className="text-gray-400 text-right" style={{ position: "relative", zIndex: 1 }}>{bid.total}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-[#111] border-t border-[#1e1e1e] flex justify-around py-3 z-20 pb-safe">
-        <button className="flex flex-col items-center gap-1 text-xs text-white">
-          <AlignJustify className="w-5 h-5" />
-          <span>Orders</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-xs text-gray-500 hover:text-gray-300 transition-colors">
-          <Clock className="w-5 h-5" />
-          <span>History</span>
-        </button>
-        <button className="flex flex-col items-center gap-1 text-xs text-gray-500 hover:text-gray-300 transition-colors">
-          <TrendingUp className="w-5 h-5" />
-          <span>Positions</span>
-        </button>
+      {/* Recent Trades */}
+      <div
+        style={{
+          background: "#111111",
+          borderRadius: 14,
+          margin: "12px 16px 0",
+          padding: 16,
+          border: "1px solid #1e1e1e",
+        }}
+      >
+        <h3 className="text-white font-semibold mb-3">Recent Trades</h3>
+        <div className="grid grid-cols-3 gap-2 text-gray-400 text-xs mb-2 pb-2" style={{ borderBottom: "1px solid #1e1e1e" }}>
+          <div>Price</div>
+          <div className="text-right">Amount</div>
+          <div className="text-right">Time</div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {recentTrades.map((trade, i) => (
+            <div key={i} className="grid grid-cols-3 gap-2 text-xs tabular-nums">
+              <div style={{ color: trade.side === "buy" ? "#00e676" : "#ef4444" }}>{trade.price}</div>
+              <div className="text-white text-right">{trade.amount}</div>
+              <div className="text-gray-500 text-right">{trade.time}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Order Form */}
+      <div
+        style={{
+          background: "#111111",
+          borderRadius: 14,
+          margin: "12px 16px 0",
+          padding: 16,
+          border: "1px solid #1e1e1e",
+        }}
+      >
+        {/* Buy/Sell Toggle */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 4,
+            background: "#1a1a1a",
+            padding: 4,
+            borderRadius: 10,
+            marginBottom: 16,
+          }}
+        >
+          <button
+            onClick={() => setSide("buy")}
+            style={{
+              padding: "8px 0",
+              fontSize: 14,
+              fontWeight: 700,
+              borderRadius: 8,
+              border: "none",
+              cursor: "pointer",
+              background: side === "buy" ? "#00e676" : "transparent",
+              color: side === "buy" ? "#000000" : "#9ca3af",
+            }}
+            data-testid="btn-buy"
+          >
+            Buy
+          </button>
+          <button
+            onClick={() => setSide("sell")}
+            style={{
+              padding: "8px 0",
+              fontSize: 14,
+              fontWeight: 700,
+              borderRadius: 8,
+              border: "none",
+              cursor: "pointer",
+              background: side === "sell" ? "#ef4444" : "transparent",
+              color: side === "sell" ? "#ffffff" : "#9ca3af",
+            }}
+            data-testid="btn-sell"
+          >
+            Sell
+          </button>
+        </div>
+
+        {/* Limit/Market Toggle */}
+        <div className="flex gap-4 mb-4 pb-2" style={{ borderBottom: "1px solid #1e1e1e" }}>
+          {["limit", "market"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setOrderType(t as "limit" | "market")}
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: orderType === t ? "#ffffff" : "#6b7280",
+                textTransform: "capitalize",
+              }}
+            >
+              {t.charAt(0).toUpperCase() + t.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {orderType === "limit" && (
+            <div>
+              <label style={{ color: "#9ca3af", fontSize: 12, display: "block", marginBottom: 4 }}>
+                Price (USDT)
+              </label>
+              <input
+                type="text"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => (e.target.style.borderColor = "#00e676")}
+                onBlur={(e) => (e.target.style.borderColor = "#2a2a2a")}
+                data-testid="input-price"
+              />
+            </div>
+          )}
+
+          <div>
+            <label style={{ color: "#9ca3af", fontSize: 12, display: "block", marginBottom: 4 }}>
+              Amount (BTC)
+            </label>
+            <input
+              type="text"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              style={inputStyle}
+              onFocus={(e) => (e.target.style.borderColor = "#00e676")}
+              onBlur={(e) => (e.target.style.borderColor = "#2a2a2a")}
+              data-testid="input-amount"
+            />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8 }}>
+            {[25, 50, 75, 100].map((pct) => (
+              <button
+                key={pct}
+                onClick={() => setAmount(((pct / 100) * 1.5).toFixed(4))}
+                style={{
+                  background: "#1a1a1a",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: 6,
+                  color: "#ffffff",
+                  fontSize: 11,
+                  padding: "6px 0",
+                  cursor: "pointer",
+                }}
+                data-testid={`pct-${pct}`}
+              >
+                {pct}%
+              </button>
+            ))}
+          </div>
+
+          <div>
+            <label style={{ color: "#9ca3af", fontSize: 12, display: "block", marginBottom: 4 }}>
+              Total (USDT)
+            </label>
+            <div
+              style={{
+                ...inputStyle,
+                background: "#0a0a0a",
+                border: "1px solid #1e1e1e",
+                color: "#9ca3af",
+              }}
+            >
+              {amount && price ? (parseFloat(amount) * parseFloat(price)).toFixed(2) : "0.00"}
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <span style={{ color: "#9ca3af", fontSize: 12 }}>Fee (0.1%)</span>
+            <span style={{ color: "#9ca3af", fontSize: 12, fontVariantNumeric: "tabular-nums" }}>
+              {amount ? (parseFloat(amount) * 0.001).toFixed(4) : "0.0000"}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-1.5">
+              <Wallet size={12} color="#9ca3af" />
+              <span style={{ color: "#9ca3af", fontSize: 12 }}>Available (USDT)</span>
+            </div>
+            <span style={{ color: "#ffffff", fontSize: 12, fontVariantNumeric: "tabular-nums" }}>0 USDT</span>
+          </div>
+
+          <button
+            style={{
+              width: "100%",
+              fontWeight: 700,
+              height: 48,
+              borderRadius: 10,
+              border: "none",
+              cursor: "pointer",
+              fontSize: 15,
+              background: side === "buy" ? "#00e676" : "#ef4444",
+              color: side === "buy" ? "#000000" : "#ffffff",
+            }}
+            data-testid="btn-place-order"
+          >
+            {side === "buy" ? "Buy BTC" : "Sell BTC"}
+          </button>
+        </div>
+      </div>
+
+      {/* Fixed Bottom Tab Bar */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          maxWidth: 430,
+          background: "#111111",
+          borderTop: "1px solid #1e1e1e",
+          height: 56,
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          zIndex: 100,
+        }}
+      >
+        {[
+          { label: "Orders", icon: AlignJustify },
+          { label: "History", icon: Clock },
+          { label: "Positions", icon: TrendingUp },
+        ].map(({ label, icon: Icon }) => (
+          <button
+            key={label}
+            onClick={() => setBottomTab(label)}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 2,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+              color: bottomTab === label ? "#ffffff" : "#6b7280",
+            }}
+            data-testid={`tab-${label.toLowerCase()}`}
+          >
+            <Icon size={18} />
+            <span style={{ fontSize: 11 }}>{label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );

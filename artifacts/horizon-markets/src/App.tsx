@@ -14,6 +14,7 @@ import Markets from "@/pages/Markets";
 import Deposit from "@/pages/Deposit";
 import Withdraw from "@/pages/Withdraw";
 import Bots from "@/pages/Bots";
+import Profile from "@/pages/Profile";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,11 @@ function Router() {
       <Route path="/bots">
         <ProtectedRoute>
           <Bots />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/profile">
+        <ProtectedRoute>
+          <Profile />
         </ProtectedRoute>
       </Route>
       

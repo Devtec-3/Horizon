@@ -15,7 +15,6 @@ export default function Dashboard() {
   const { username } = useAuth();
 
   useEffect(() => {
-    // Show toast only once per session
     const hasShownToast = sessionStorage.getItem("hasShownLoginToast");
     if (!hasShownToast) {
       setShowToast(true);
@@ -26,7 +25,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col pb-20">
+    <div className="min-h-screen bg-black flex flex-col pb-10" style={{ maxWidth: 430, margin: "0 auto" }}>
       <AuthHeader onMenuClick={() => setDrawerOpen(true)} />
       <SideDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
@@ -36,7 +35,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-4 right-4 z-50 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-4 shadow-xl flex items-start gap-3 max-w-sm"
+            className="fixed top-4 right-4 z-50 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-4 shadow-xl flex items-start gap-3 max-w-xs"
           >
             <div className="bg-[#0f2a0f] p-1.5 rounded-full mt-0.5">
               <Check className="w-4 h-4 text-[#00e676]" />
@@ -49,46 +48,111 @@ export default function Dashboard() {
         )}
       </AnimatePresence>
 
-      <div className="bg-gradient-to-b from-[#0a1a0f] to-black px-4 pt-6 pb-8">
-        <h1 className="text-white text-2xl font-bold tracking-tight">Welcome back, {username}</h1>
-        <p className="text-gray-400 text-sm mt-1">Here's the latest market overview.</p>
-      </div>
+      {/* Hero */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, #071a0e 0%, #040d07 60%, #000 100%)",
+          padding: "28px 16px 32px",
+        }}
+      >
+        <h1 style={{ color: "#ffffff", fontSize: 26, fontWeight: 800 }}>
+          Welcome back, {username}
+        </h1>
+        <p style={{ color: "#6b7280", fontSize: 14, marginTop: 6 }}>
+          Here's the latest market overview.
+        </p>
 
-      <div className="grid grid-cols-2 gap-3 px-4 mt-4">
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <Wallet className="text-gray-400 w-5 h-5 mb-2" />
-          <div className="text-gray-400 text-xs font-medium">Total Balance</div>
-          <div className="text-white font-bold text-xl mt-1 tabular-nums">$0.00</div>
-        </div>
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <Activity className="text-gray-400 w-5 h-5 mb-2" />
-          <div className="text-gray-400 text-xs font-medium">24h Volume</div>
-          <div className="text-white font-bold text-xl mt-1 tabular-nums">$558.05 B</div>
-        </div>
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <TrendingUp className="text-[#00e676] w-5 h-5 mb-2" />
-          <div className="text-gray-400 text-xs font-medium">Top Gainer</div>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-white font-bold text-xl">BTC</span>
-            <span className="text-[#00e676] text-xs font-medium">+442.75%</span>
+        {/* Stats 2x2 */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 10,
+            marginTop: 24,
+          }}
+        >
+          {/* Total Balance */}
+          <div
+            style={{
+              background: "#111111",
+              border: "1px solid #1e1e1e",
+              borderRadius: 14,
+              padding: "14px 16px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Wallet size={18} color="#9ca3af" />
+              <span style={{ color: "#9ca3af", fontSize: 12 }}>Total Balance</span>
+            </div>
+            <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 20, marginTop: 10, fontVariantNumeric: "tabular-nums" }}>
+              $0.00
+            </div>
+          </div>
+
+          {/* 24h Volume */}
+          <div
+            style={{
+              background: "#111111",
+              border: "1px solid #1e1e1e",
+              borderRadius: 14,
+              padding: "14px 16px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Activity size={18} color="#9ca3af" />
+              <span style={{ color: "#9ca3af", fontSize: 12 }}>24h Volume</span>
+            </div>
+            <div style={{ color: "#ffffff", fontWeight: 700, fontSize: 20, marginTop: 10, fontVariantNumeric: "tabular-nums" }}>
+              $558.05 B
+            </div>
+          </div>
+
+          {/* Top Gainer */}
+          <div
+            style={{
+              background: "#111111",
+              border: "1px solid #1e1e1e",
+              borderRadius: 14,
+              padding: "14px 16px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <TrendingUp size={18} color="#00e676" />
+              <span style={{ color: "#9ca3af", fontSize: 12 }}>Top Gainer</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 10 }}>
+              <span style={{ color: "#ffffff", fontWeight: 700, fontSize: 20 }}>BTC</span>
+              <span style={{ color: "#00e676", fontSize: 12, fontWeight: 600 }}>+442.75%</span>
+            </div>
+          </div>
+
+          {/* Top Loser */}
+          <div
+            style={{
+              background: "#111111",
+              border: "1px solid #1e1e1e",
+              borderRadius: 14,
+              padding: "14px 16px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <TrendingDown size={18} color="#ef4444" />
+              <span style={{ color: "#9ca3af", fontSize: 12 }}>Top Loser</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 10 }}>
+              <span style={{ color: "#ffffff", fontWeight: 700, fontSize: 20 }}>BCH</span>
+              <span style={{ color: "#ef4444", fontSize: 12, fontWeight: 600 }}>-10.50%</span>
+            </div>
           </div>
         </div>
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
-          <TrendingDown className="text-[#ef4444] w-5 h-5 mb-2" />
-          <div className="text-gray-400 text-xs font-medium">Top Loser</div>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-white font-bold text-xl">BCH</span>
-            <span className="text-[#ef4444] text-xs font-medium">-10.50%</span>
-          </div>
-        </div>
       </div>
 
-      <div className="mt-6 mb-6">
-        <TickerBar />
-      </div>
+      {/* Ticker */}
+      <TickerBar />
 
-      <div className="px-4">
-        <div className="flex justify-between items-end mb-4">
+      {/* Trending Assets */}
+      <div className="px-4 mt-6">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="text-white font-bold text-lg">Trending Assets</h2>
           <Link href="/markets" className="text-gray-400 text-sm hover:text-white transition-colors">
             View All →
@@ -97,24 +161,37 @@ export default function Dashboard() {
 
         {trendingAssets.map((asset) => (
           <Link href="/trade" key={asset.symbol}>
-            <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e] mb-3 hover:border-[#2a2a2a] transition-colors cursor-pointer group">
+            <div
+              style={{
+                background: "#111111",
+                border: "1px solid #1e1e1e",
+                borderRadius: 14,
+                padding: 16,
+                marginBottom: 12,
+                cursor: "pointer",
+              }}
+            >
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <div className="text-white font-bold">{asset.symbol}</div>
                   <div className="text-gray-400 text-xs mt-0.5">{asset.name}</div>
                 </div>
                 <div
-                  className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    asset.positive
-                      ? "bg-[#00e676]/10 text-[#00e676]"
-                      : "bg-[#ef4444]/10 text-[#ef4444]"
-                  }`}
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    padding: "3px 8px",
+                    borderRadius: 999,
+                    background: asset.positive ? "rgba(0,230,118,0.12)" : "rgba(239,68,68,0.12)",
+                    color: asset.positive ? "#00e676" : "#ef4444",
+                  }}
                 >
                   {asset.change}
                 </div>
               </div>
-              
-              <div className="h-[60px] w-full -mx-2 opacity-80 group-hover:opacity-100 transition-opacity">
+
+              {/* Sparkline — edge to edge, no padding */}
+              <div style={{ margin: "0 -16px", height: 60 }}>
                 <SparklineChart
                   data={asset.sparkData}
                   color={asset.positive ? "#00e676" : "#ef4444"}
@@ -131,16 +208,28 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 mt-4 mb-8">
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
+      {/* Top Gainers / Losers */}
+      <div className="grid grid-cols-2 gap-3 px-4 mt-4 mb-8">
+        <div
+          style={{
+            background: "#111111",
+            border: "1px solid #1e1e1e",
+            borderRadius: 14,
+            padding: 16,
+          }}
+        >
           <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="text-[#00e676] w-3.5 h-3.5" />
-            <h3 className="text-white font-semibold text-sm">Top Gainers</h3>
+            <TrendingUp className="text-[#00e676]" size={14} />
+            <h3 className="text-white font-semibold text-sm">Top Gainers (24h)</h3>
           </div>
-          <div className="space-y-0.5">
+          <div>
             {topGainers.map((coin) => (
-              <div key={coin.symbol} className="flex items-center justify-between py-2 border-b border-[#1e1e1e] last:border-0">
-                <div className="flex items-center gap-2">
+              <div
+                key={coin.symbol}
+                className="flex items-center justify-between py-2"
+                style={{ borderBottom: "1px solid #1e1e1e" }}
+              >
+                <div className="flex items-center gap-1.5">
                   <span className="text-gray-400 text-xs w-4">{coin.rank}</span>
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: coin.color }} />
                   <span className="text-white text-xs font-medium">{coin.symbol}</span>
@@ -152,15 +241,26 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-[#111] rounded-xl p-4 border border-[#1e1e1e]">
+        <div
+          style={{
+            background: "#111111",
+            border: "1px solid #1e1e1e",
+            borderRadius: 14,
+            padding: 16,
+          }}
+        >
           <div className="flex items-center gap-2 mb-3">
-            <TrendingDown className="text-[#ef4444] w-3.5 h-3.5" />
-            <h3 className="text-white font-semibold text-sm">Top Losers</h3>
+            <TrendingDown className="text-[#ef4444]" size={14} />
+            <h3 className="text-white font-semibold text-sm">Top Losers (24h)</h3>
           </div>
-          <div className="space-y-0.5">
+          <div>
             {topLosers.map((coin) => (
-              <div key={coin.symbol} className="flex items-center justify-between py-2 border-b border-[#1e1e1e] last:border-0">
-                <div className="flex items-center gap-2">
+              <div
+                key={coin.symbol}
+                className="flex items-center justify-between py-2"
+                style={{ borderBottom: "1px solid #1e1e1e" }}
+              >
+                <div className="flex items-center gap-1.5">
                   <span className="text-gray-400 text-xs w-4">{coin.rank}</span>
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: coin.color }} />
                   <span className="text-white text-xs font-medium">{coin.symbol}</span>

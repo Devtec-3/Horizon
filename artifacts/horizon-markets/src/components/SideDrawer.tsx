@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { X, Search, Wallet, LayoutGrid, TrendingUp, BarChart2, ArrowUpRight, ArrowDownLeft, Bot } from "lucide-react";
 
 interface SideDrawerProps {
@@ -8,7 +8,7 @@ interface SideDrawerProps {
 }
 
 export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
 
   const navItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutGrid },
@@ -19,6 +19,11 @@ export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
     { label: "Trading Bots", href: "/bots", icon: Bot },
   ];
 
+  const handleNav = (href: string) => {
+    navigate(href);
+    onClose();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -28,57 +33,132 @@ export function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.5)",
+              backdropFilter: "blur(4px)",
+              zIndex: 40,
+            }}
           />
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-72 bg-[#111] z-50 flex flex-col border-l border-[#1e1e1e]"
+            style={{
+              position: "fixed",
+              top: 0,
+              right: 0,
+              height: "100%",
+              width: 288,
+              background: "#111111",
+              zIndex: 50,
+              borderLeft: "1px solid #1e1e1e",
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
-            <div className="flex justify-between items-center px-4 py-4 border-b border-[#1e1e1e]">
-              <span className="text-white font-bold">Menu</span>
-              <button onClick={onClose} data-testid="btn-close-menu">
-                <X className="text-gray-400 hover:text-white w-5 h-5" />
+            {/* Header */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "16px",
+                borderBottom: "1px solid #1e1e1e",
+              }}
+            >
+              <span style={{ color: "#ffffff", fontWeight: 700, fontSize: 16 }}>Menu</span>
+              <button
+                onClick={onClose}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                data-testid="btn-close-menu"
+              >
+                <X size={20} color="#9ca3af" />
               </button>
             </div>
 
-            <div className="p-4">
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <div style={{ padding: 16, flex: 1, display: "flex", flexDirection: "column", gap: 0 }}>
+              {/* Wallet Balance */}
+              <div
+                style={{
+                  background: "#111111",
+                  borderRadius: 10,
+                  padding: "12px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 12,
+                  border: "1px solid #1e1e1e",
+                }}
+              >
+                <Wallet size={16} color="#00e676" />
+                <span style={{ color: "#ffffff", fontWeight: 600, fontSize: 14 }}>$0.00</span>
+              </div>
+
+              {/* Search */}
+              <div
+                style={{
+                  background: "#111111",
+                  borderRadius: 10,
+                  padding: "10px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  marginBottom: 4,
+                  border: "1px solid #1e1e1e",
+                }}
+              >
+                <Search size={14} color="#9ca3af" />
                 <input
                   type="text"
                   placeholder="Search markets..."
-                  className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00e676]"
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    outline: "none",
+                    color: "#ffffff",
+                    fontSize: 13,
+                    width: "100%",
+                  }}
+                  className="placeholder:text-gray-500"
                 />
               </div>
 
-              <div className="flex items-center gap-2 bg-[#1a1a1a] rounded-lg px-3 py-2 border border-[#2a2a2a] mb-4">
-                <Wallet className="w-4 h-4 text-[#00e676]" />
-                <span className="text-white font-bold text-sm">$0.00</span>
-              </div>
+              <div style={{ borderTop: "1px solid #2a2a2a", margin: "12px 0" }} />
 
-              <div className="border-t border-[#2a2a2a] my-2" />
-
-              <div className="flex flex-col gap-1 mt-2">
+              {/* Nav items */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location === item.href;
                   return (
-                    <Link key={item.href} href={item.href}>
-                      <div
-                        onClick={onClose}
-                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
-                          isActive
-                            ? "bg-[#0f2a0f] text-[#00e676]"
-                            : "text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
-                        }`}
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span className="font-medium text-sm">{item.label}</span>
-                      </div>
-                    </Link>
+                    <button
+                      key={item.href}
+                      onClick={() => handleNav(item.href)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        padding: "12px 14px",
+                        borderRadius: 10,
+                        cursor: "pointer",
+                        background: isActive ? "#0d2b15" : "transparent",
+                        color: isActive ? "#00e676" : "#ffffff",
+                        border: "none",
+                        textAlign: "left",
+                        width: "100%",
+                        transition: "background 0.15s",
+                      }}
+                      data-testid={`nav-${item.label.toLowerCase()}`}
+                    >
+                      <Icon
+                        size={16}
+                        color={isActive ? "#00e676" : "#9ca3af"}
+                      />
+                      <span style={{ fontWeight: 500, fontSize: 14 }}>{item.label}</span>
+                    </button>
                   );
                 })}
               </div>

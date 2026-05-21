@@ -1,0 +1,489 @@
+CORRECTIONS NEEDED FOR HORIZON MARKETS CLONE
+Apply all fixes below to the existing HTML file.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 1: LANDING PAGE — Complete Rebuild
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The landing page layout is WRONG. Fix it exactly:
+
+NAVBAR (sticky, black bg, px-5 py-4):
+- LEFT: Logo (icon + HORIZON/MARKETS text)
+- RIGHT: "Sign In" plain white text button (no border) 
+  + "Get Started" solid #00e676 green pill button 
+  (px-5 py-2.5 rounded-xl black text font-bold)
+- NO other nav links
+
+HERO SECTION (pure black bg, px-5 pt-16 pb-10 text-center):
+- Line 1: small green dot label — 
+  color #00e676, font-size 13px, font-weight 600:
+  "Premium Trading"
+- Line 2: H1 — font-size 36px, font-weight 800, 
+  line-height 1.15, margin-top 12px:
+  "Professional Trading"
+  "Platform" 
+  (two lines, white, no gradient)
+- Line 3: paragraph — color #9ca3af, font-size 14px, 
+  line-height 1.65, margin-top 14px, max-width 320px centered:
+  "Our platform provides real-time market data and 
+   professional tools tailored to maximize your 
+   trading opportunities."
+- NO buttons in hero. NO stats section.
+- Immediately below the paragraph come the FEATURE CARDS.
+
+FEATURE CARDS (stacked full-width, margin-top 32px):
+Each card: bg #111, border 1px solid #1e1e1e, 
+border-radius 16px, padding 20px, margin-bottom 12px,
+display flex, flex-direction column, gap 12px.
+
+Card structure:
+[Dark green icon box (bg #0d2b15, border-radius 12px, 
+ padding 12px, width fit-content)]
+  → icon inside: stroke #00e676, size 24px
+[Title: white, font-weight 700, font-size 15px]
+[Body: color #9ca3af, font-size 13px, line-height 1.55]
+
+Cards in order:
+1. Icon: line-chart/activity
+   Title: "Advanced Trading Charts"
+   Body: "Access professional candlestick charts with 
+   real-time OHLCV data and multiple timeframes."
+
+2. Icon: pulse/waveform  
+   Title: "Real-Time Market Monitoring"
+   Body: "Monitor live price movements across hundreds 
+   of trading pairs with instant alerts."
+
+3. Icon: shield/lock
+   Title: "Secure & Encrypted"
+   Body: "Bank-grade security with end-to-end encryption 
+   protecting your assets 24/7."
+
+4. Icon: clock/24h
+   Title: "24/7 Trading"
+   Body: "Markets never sleep. Trade any time, anywhere 
+   with our always-on platform."
+
+5. Icon: dollar-sign
+   Title: "Low Trading Fees"
+   Body: "Industry-leading 0.1% maker/taker fees. 
+   Keep more of your profits."
+
+6. Icon: cpu/bot
+   Title: "Automated Bots"
+   Body: "Deploy AI-powered trading bots to execute 
+   strategies while you sleep."
+
+BOTTOM CTA SECTION (margin-top 8px, mx-4 mb-10):
+bg: linear-gradient(135deg, #071a0e, #0d2b15)
+border: 1px solid #1e3a1e
+border-radius: 18px
+padding: 36px 24px
+text-center:
+  H2: "Start Trading Today" — white bold font-size 22px
+  P: "Join millions of traders on the most trusted 
+      platform" — gray font-size 13px margin-top 6px
+  Button: "Create Free Account" — bg #00e676 black bold 
+          px-8 py-3.5 rounded-xl margin-top 20px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 2: REGISTER PAGE — Full Country List
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The phone country dropdown must show the COMPLETE 
+list of all countries — not just 3-4. 
+
+Replace the COUNTRIES array with this full list:
+
+const COUNTRIES = [
+  {code:'+1',flag:'🇺🇸',name:'United States'},
+  {code:'+1',flag:'🇨🇦',name:'Canada'},
+  {code:'+44',flag:'🇬🇧',name:'United Kingdom'},
+  {code:'+234',flag:'🇳🇬',name:'Nigeria'},
+  {code:'+91',flag:'🇮🇳',name:'India'},
+  {code:'+86',flag:'🇨🇳',name:'China'},
+  {code:'+49',flag:'🇩🇪',name:'Germany'},
+  {code:'+33',flag:'🇫🇷',name:'France'},
+  {code:'+81',flag:'🇯🇵',name:'Japan'},
+  {code:'+55',flag:'🇧🇷',name:'Brazil'},
+  {code:'+7',flag:'🇷🇺',name:'Russia'},
+  {code:'+27',flag:'🇿🇦',name:'South Africa'},
+  {code:'+971',flag:'🇦🇪',name:'UAE'},
+  {code:'+966',flag:'🇸🇦',name:'Saudi Arabia'},
+  {code:'+20',flag:'🇪🇬',name:'Egypt'},
+  {code:'+254',flag:'🇰🇪',name:'Kenya'},
+  {code:'+233',flag:'🇬🇭',name:'Ghana'},
+  {code:'+212',flag:'🇲🇦',name:'Morocco'},
+  {code:'+213',flag:'🇩🇿',name:'Algeria'},
+  {code:'+216',flag:'🇹🇳',name:'Tunisia'},
+  {code:'+225',flag:'🇨🇮',name:'Ivory Coast'},
+  {code:'+237',flag:'🇨🇲',name:'Cameroon'},
+  {code:'+251',flag:'🇪🇹',name:'Ethiopia'},
+  {code:'+255',flag:'🇹🇿',name:'Tanzania'},
+  {code:'+256',flag:'🇺🇬',name:'Uganda'},
+  {code:'+260',flag:'🇿🇲',name:'Zambia'},
+  {code:'+263',flag:'🇿🇼',name:'Zimbabwe'},
+  {code:'+52',flag:'🇲🇽',name:'Mexico'},
+  {code:'+54',flag:'🇦🇷',name:'Argentina'},
+  {code:'+56',flag:'🇨🇱',name:'Chile'},
+  {code:'+57',flag:'🇨🇴',name:'Colombia'},
+  {code:'+51',flag:'🇵🇪',name:'Peru'},
+  {code:'+58',flag:'🇻🇪',name:'Venezuela'},
+  {code:'+61',flag:'🇦🇺',name:'Australia'},
+  {code:'+64',flag:'🇳🇿',name:'New Zealand'},
+  {code:'+65',flag:'🇸🇬',name:'Singapore'},
+  {code:'+60',flag:'🇲🇾',name:'Malaysia'},
+  {code:'+62',flag:'🇮🇩',name:'Indonesia'},
+  {code:'+63',flag:'🇵🇭',name:'Philippines'},
+  {code:'+66',flag:'🇹🇭',name:'Thailand'},
+  {code:'+84',flag:'🇻🇳',name:'Vietnam'},
+  {code:'+82',flag:'🇰🇷',name:'South Korea'},
+  {code:'+886',flag:'🇹🇼',name:'Taiwan'},
+  {code:'+852',flag:'🇭🇰',name:'Hong Kong'},
+  {code:'+92',flag:'🇵🇰',name:'Pakistan'},
+  {code:'+880',flag:'🇧🇩',name:'Bangladesh'},
+  {code:'+94',flag:'🇱🇰',name:'Sri Lanka'},
+  {code:'+98',flag:'🇮🇷',name:'Iran'},
+  {code:'+964',flag:'🇮🇶',name:'Iraq'},
+  {code:'+90',flag:'🇹🇷',name:'Turkey'},
+  {code:'+972',flag:'🇮🇱',name:'Israel'},
+  {code:'+961',flag:'🇱🇧',name:'Lebanon'},
+  {code:'+962',flag:'🇯🇴',name:'Jordan'},
+  {code:'+974',flag:'🇶🇦',name:'Qatar'},
+  {code:'+965',flag:'🇰🇼',name:'Kuwait'},
+  {code:'+968',flag:'🇴🇲',name:'Oman'},
+  {code:'+973',flag:'🇧🇭',name:'Bahrain'},
+  {code:'+39',flag:'🇮🇹',name:'Italy'},
+  {code:'+34',flag:'🇪🇸',name:'Spain'},
+  {code:'+351',flag:'🇵🇹',name:'Portugal'},
+  {code:'+31',flag:'🇳🇱',name:'Netherlands'},
+  {code:'+32',flag:'🇧🇪',name:'Belgium'},
+  {code:'+41',flag:'🇨🇭',name:'Switzerland'},
+  {code:'+43',flag:'🇦🇹',name:'Austria'},
+  {code:'+46',flag:'🇸🇪',name:'Sweden'},
+  {code:'+47',flag:'🇳🇴',name:'Norway'},
+  {code:'+45',flag:'🇩🇰',name:'Denmark'},
+  {code:'+358',flag:'🇫🇮',name:'Finland'},
+  {code:'+48',flag:'🇵🇱',name:'Poland'},
+  {code:'+380',flag:'🇺🇦',name:'Ukraine'},
+  {code:'+30',flag:'🇬🇷',name:'Greece'},
+  {code:'+40',flag:'🇷🇴',name:'Romania'},
+  {code:'+420',flag:'🇨🇿',name:'Czech Republic'},
+  {code:'+36',flag:'🇭🇺',name:'Hungary'},
+  {code:'+353',flag:'🇮🇪',name:'Ireland'},
+];
+
+Default selected: 🇺🇸 United States +1
+
+Dropdown MUST also have a SEARCH INPUT at the top:
+- Input inside dropdown: placeholder "Search country..."
+  bg #0f0f0f, border-bottom 1px solid #222, 
+  padding 10px 14px, color white, no outline
+- Filters the country list in real-time as user types
+  (searches by name or code)
+- Dropdown max-height: 220px, overflow-y: auto
+- Each row: [flag 20px] [name flex-1] [code gray right]
+  padding 10px 14px, hover bg #222, cursor pointer
+  border-bottom 1px solid #1a1a1a
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 3: TICKER BAR — True Infinite Scroll
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current ticker may jump or pause. Fix:
+
+1. Render items array TRIPLED (x3) inside .ticker-track
+   so loop is perfectly seamless with no visible gap.
+
+2. CSS animation:
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.ticker-track {
+  animation: tickerScroll 35s linear infinite;
+  will-change: transform;
+}
+
+3. Each item format (exactly as screenshot):
+   [colored dot 7px circle] [PAIR white 12px] 
+   [space 6px] [price white 12px font-500]
+   [vertical divider | gray after each item]
+
+4. Container: overflow hidden, height 44px, 
+   black bg, thin border-top and border-bottom 
+   1px solid #1a1a1a
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 4: LOGIN PAGE — Exact Match
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The full page background must be pure black #000.
+The card must be centered vertically on screen.
+
+Card (bg #111, border 1px solid #1e1e1e, 
+      border-radius 20px, padding 32px 24px,
+      max-width 400px, margin auto):
+
+1. Logo centered — icon + text stacked, margin-bottom 24px
+2. "Welcome back" — font-size 26px font-weight 800 centered
+3. "Sign in to your Horizon Markets account" — 
+   color #9ca3af font-size 14px centered margin-bottom 24px
+
+4. Label "Email" — white font-weight 500 font-size 14px
+   Input — full-width, bg #1a1a1a, border 1px solid #2a2a2a,
+   border-radius 10px, padding 13px 14px, color white,
+   placeholder color #6b7280, font-size 14px, 
+   outline none, margin-bottom 14px
+
+5. Label "Password" — white font-weight 500 font-size 14px
+   Input type=password — same style as email input
+   margin-bottom 6px
+
+6. "Forgot password?" — 
+   display block, text-align right, color #00e676,
+   font-size 13px, cursor pointer, margin-bottom 20px
+
+7. Button "Sign in" — 
+   width 100%, bg #00e676, border none, color #000,
+   font-size 16px, font-weight 700, padding 14px,
+   border-radius 10px, cursor pointer, margin-bottom 16px
+
+8. "Don't have an account?" gray + "Sign up" #00e676 link
+   text-align center, font-size 13px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 5: DASHBOARD HERO — Exact Colors
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hero gradient: 
+background: linear-gradient(180deg, #071a0e 0%, #040d07 60%, #000 100%)
+padding: 28px 16px 32px
+
+"Welcome back, [name]" — font-size 26px font-weight 800
+"Here's the latest market overview." — 
+  color #6b7280 font-size 14px margin-top 6px
+
+Stat cards grid (2x2, gap 10px, margin-top 24px):
+Each card: bg #111111, border 1px solid #1e1e1e, 
+border-radius 14px, padding 14px 16px
+
+Card internal layout (vertical):
+ROW 1: [icon 18px gray] [label gray text-12px] — flex row gap-6
+ROW 2: [value white bold font-20px] — margin-top 10px
+
+Exact values:
+- Total Balance: $0.00
+- 24h Volume: $558.05 B  
+- Top Gainer: "BTC" white + " +442.75%" #00e676
+- Top Loser: "BCH" white + " -10.50%" #ef4444
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 6: AUTHENTICATED HEADER — Exact Icons
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+bg: #000000 (pure black)
+border-bottom: 1px solid #111
+padding: 14px 16px
+position: sticky, top 0, z-index 100
+
+LEFT: Logo (smaller version ~32px height)
+
+RIGHT icons (flex row, gap 20px, align-center):
+1. Person icon — white stroke, 22px
+   onClick → navigates to /profile
+2. Arrow-right-from-box icon — RED #ef4444 stroke, 22px
+   This is the LOGOUT icon (arrow going right out of a rectangle)
+   onClick → logout()
+3. Three horizontal lines — white stroke, 22px
+   onClick → opens side drawer
+
+IMPORTANT: The logout icon must look like 
+"→|" (arrow right exiting a box), NOT a power button.
+Use this SVG path:
+<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+<polyline points="16 17 21 12 16 7"/>
+<line x1="21" y1="12" x2="9" y2="12"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 7: SIDE DRAWER — Active State Fix
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Side drawer slides from RIGHT. Left 30% shows page behind.
+
+Active menu item style (currently on this page):
+- background: #0d2b15 (dark green)
+- color: #00e676
+- border-radius: 10px
+- The ICON also becomes #00e676 color
+
+Inactive item:
+- background: transparent
+- color: #ffffff
+- icon color: #9ca3af
+
+Balance pill (below divider):
+bg #111, border-radius 10px, padding 12px 14px,
+flex row, gap 10px, align-center:
+[green wallet icon] [$0.00 white font-weight 600]
+
+Search input:
+bg #111, border-radius 10px, padding 10px 14px,
+[search icon gray] [input placeholder "Search markets..."]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 8: MARKETS PAGE — Filter Tab Active Style
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Filter tabs (All | ☆ | Gainers | Losers):
+
+ACTIVE tab style:
+bg: #000 (black), 
+border: 1px solid rgba(255,255,255,0.2),
+color: white, font-weight 600,
+border-radius: 8px, padding: 6px 14px
+
+INACTIVE tab style:
+bg: transparent, border: none,
+color: #9ca3af, font-weight 400,
+border-radius: 8px, padding: 6px 14px
+
+When "Gainers" is active:
+→ show only coins where change > 0
+→ sorted highest % first
+→ all % badges show green
+
+When "Losers" is active:
+→ show only coins where change < 0  
+→ sorted most negative first
+→ all % badges show red
+
+When "☆" is active:
+→ show only starred coins
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 9: TRADE PAGE — Chart & Bottom Bar
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Bottom tab bar must be FIXED to bottom of screen:
+position: fixed, bottom: 0, left: 0, right: 0
+bg: #111, border-top: 1px solid #1e1e1e
+height: 56px, display: grid, grid-cols: 3
+z-index: 100
+
+Each tab: flex column, align-center, justify-center, gap 2px
+Icon size: 18px, label size: 11px
+
+The main trade content area needs:
+padding-bottom: 56px (so content doesn't hide behind bar)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 10: TRENDING ASSET CARDS — No Symbol
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+From the screenshot, trending asset cards show:
+- TOP LEFT: symbol (YFI) white bold + full name gray below
+- TOP RIGHT: % badge (green or red rounded pill)
+- MIDDLE: sparkline chart (full width, 60px height)
+- BOTTOM LEFT: price ($8,578.67) white bold
+- BOTTOM RIGHT: Vol: $490.23 B gray small
+
+The sparkline must touch all 4 edges of its container
+with no padding around it. 
+
+Green sparkline for positive: stroke #00e676, 
+line-width 2px, smooth curve
+
+Red sparkline for negative: stroke #ef4444,
+line-width 2px, smooth curve
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 11: DEPOSIT STEP 3 — Countdown Timer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Timer starts at 60:00 (3600 seconds) not 59:52.
+Timer color: #f59e0b (yellow/amber)
+Timer font: font-variant-numeric tabular-nums, 
+font-weight 700, font-size 18px
+
+useEffect to count down every second:
+useEffect(() => {
+  if (step === 3) {
+    const id = setInterval(() => {
+      setTimer(t => t > 0 ? t - 1 : 0);
+    }, 1000);
+    return () => clearInterval(id);
+  }
+}, [step]);
+
+Format: MM:SS (always 2 digits each)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 12: PROFILE PAGE — Exact Layout
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Profile accessed via person icon in header (NOT menu).
+
+"Verified" badge on Account Status:
+bg: #16532d (dark green)
+border: 1px solid #00e676
+color: #00e676
+border-radius: 8px
+padding: 4px 14px
+font-weight: 600
+font-size: 13px
+
+"Account Status" row:
+label gray left | badge right (NOT text right)
+
+User ID row:
+show truncated: "563d0625-435a-467d-b1fd-d5..."
+color: #9ca3af (gray, not white)
+
+Personal info rows with icons and bottom borders:
+Each row: 
+[icon 16px gray] [label gray flex-1] [value white/gray right]
+border-bottom: 1px solid #1a1a1a between rows
+
+Email value: show actual email, white color, 
+font-size 12px (smaller to fit)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FIX 13: GENERAL SPACING & COLORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ALL page content areas (dashboard, markets, trade, etc.)
+   must have padding-bottom: 40px minimum so content 
+   doesn't get clipped at bottom
+
+2. ALL dark cards: bg #111111 (not #111 shorthand 
+   which may vary). Border: 1px solid #1e1e1e.
+
+3. ALL green buttons: 
+   background: #00e676
+   color: #000000
+   font-weight: 700
+   border-radius: 10px (not pill/fully rounded)
+   No box-shadow
+
+4. ALL inputs:
+   background: #1a1a1a
+   border: 1px solid #2a2a2a
+   border-radius: 10px
+   padding: 13px 14px
+   color: white
+   font-size: 14px
+   outline: none
+   On focus: border-color #00e676 (green glow)
+
+5. Page titles (Markets, Profile, etc.):
+   font-size: 24px, font-weight: 800, color: white
+   Sub-title below: color #9ca3af, font-size: 14px
+
+6. The app container max-width: 430px, 
+   margin: 0 auto (centered on desktop)
+   background: #000
+
+Apply ALL 13 fixes above to the existing 
+Horizon Markets HTML file and rebuild it.
+Keep everything else that currently works correctly.

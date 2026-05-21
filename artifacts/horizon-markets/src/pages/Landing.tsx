@@ -1,60 +1,169 @@
 import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
-import { LineChart, Activity } from "lucide-react";
+import { LineChart, Activity, Shield, Clock, DollarSign, Bot } from "lucide-react";
+
+const features = [
+  {
+    icon: LineChart,
+    title: "Advanced Trading Charts",
+    body: "Access professional candlestick charts with real-time OHLCV data and multiple timeframes.",
+  },
+  {
+    icon: Activity,
+    title: "Real-Time Market Monitoring",
+    body: "Monitor live price movements across hundreds of trading pairs with instant alerts.",
+  },
+  {
+    icon: Shield,
+    title: "Secure & Encrypted",
+    body: "Bank-grade security with end-to-end encryption protecting your assets 24/7.",
+  },
+  {
+    icon: Clock,
+    title: "24/7 Trading",
+    body: "Markets never sleep. Trade any time, anywhere with our always-on platform.",
+  },
+  {
+    icon: DollarSign,
+    title: "Low Trading Fees",
+    body: "Industry-leading 0.1% maker/taker fees. Keep more of your profits.",
+  },
+  {
+    icon: Bot,
+    title: "Automated Bots",
+    body: "Deploy AI-powered trading bots to execute strategies while you sleep.",
+  },
+];
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-black flex flex-col">
-      <header className="flex justify-between items-center px-6 py-4 bg-black sticky top-0 z-10 border-b border-[#1e1e1e]">
+    <div className="min-h-screen bg-black flex flex-col" style={{ maxWidth: 430, margin: "0 auto" }}>
+      <header className="flex justify-between items-center px-5 py-4 bg-black sticky top-0 z-10">
         <Logo />
-        <div className="flex items-center gap-4">
-          <Link href="/login" className="text-gray-400 hover:text-white text-sm font-medium transition-colors">
+        <div className="flex items-center gap-3">
+          <Link href="/login" className="text-white text-sm font-medium">
             Sign In
           </Link>
-          <Link href="/register" className="bg-[#00e676] hover:bg-[#00c853] text-black font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+          <Link
+            href="/register"
+            className="bg-[#00e676] text-black font-bold px-5 py-2.5 rounded-xl text-sm"
+          >
             Get Started
           </Link>
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col justify-center px-6 min-h-[80vh] relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1a0f]/20 to-black pointer-events-none" />
-        
-        <div className="relative z-10 max-w-2xl mx-auto w-full pt-12 pb-20">
-          <div className="inline-flex items-center gap-1.5 text-[#00e676] text-sm font-medium mb-6 bg-[#0f2a0f] px-3 py-1 rounded-full border border-[#00e676]/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00e676] animate-pulse" />
-            Premium Trading
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-            Professional<br />Trading Platform
-          </h1>
-          
-          <p className="text-gray-400 text-lg max-w-md mb-12">
-            Information-dense, razor-sharp, and instantly readable. Built for active crypto traders.
+      <main className="flex-1 flex flex-col px-5 pt-16 pb-10 text-center">
+        <div className="flex justify-center">
+          <span style={{ color: "#00e676", fontSize: 13, fontWeight: 600 }}>
+            • Premium Trading
+          </span>
+        </div>
+
+        <h1
+          style={{
+            fontSize: 36,
+            fontWeight: 800,
+            lineHeight: 1.15,
+            marginTop: 12,
+            color: "#ffffff",
+          }}
+        >
+          Professional Trading
+          <br />
+          Platform
+        </h1>
+
+        <p
+          style={{
+            color: "#9ca3af",
+            fontSize: 14,
+            lineHeight: 1.65,
+            marginTop: 14,
+            maxWidth: 320,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          Our platform provides real-time market data and professional tools tailored to maximize
+          your trading opportunities.
+        </p>
+
+        <div style={{ marginTop: 32 }}>
+          {features.map((f) => {
+            const Icon = f.icon;
+            return (
+              <div
+                key={f.title}
+                style={{
+                  background: "#111111",
+                  border: "1px solid #1e1e1e",
+                  borderRadius: 16,
+                  padding: 20,
+                  marginBottom: 12,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
+                  textAlign: "left",
+                }}
+              >
+                <div
+                  style={{
+                    background: "#0d2b15",
+                    borderRadius: 12,
+                    padding: 12,
+                    width: "fit-content",
+                  }}
+                >
+                  <Icon size={24} color="#00e676" strokeWidth={1.75} />
+                </div>
+                <div
+                  style={{ color: "#ffffff", fontWeight: 700, fontSize: 15 }}
+                >
+                  {f.title}
+                </div>
+                <div style={{ color: "#9ca3af", fontSize: 13, lineHeight: 1.55 }}>
+                  {f.body}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div
+          style={{
+            background: "linear-gradient(135deg, #071a0e, #0d2b15)",
+            border: "1px solid #1e3a1e",
+            borderRadius: 18,
+            padding: "36px 24px",
+            marginTop: 8,
+            marginBottom: 10,
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ color: "#ffffff", fontWeight: 700, fontSize: 22 }}>
+            Start Trading Today
+          </h2>
+          <p style={{ color: "#9ca3af", fontSize: 13, marginTop: 6 }}>
+            Join millions of traders on the most trusted platform
           </p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-[#111] rounded-xl p-5 border border-[#1e1e1e] hover:border-[#2a2a2a] transition-colors">
-              <div className="bg-[#0f2a0f] w-10 h-10 rounded-lg flex items-center justify-center mb-4">
-                <LineChart className="text-[#00e676] w-5 h-5" />
-              </div>
-              <h3 className="text-white font-semibold text-lg">Advanced Trading Charts</h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Pixel-perfect charting tools with real-time data integration.
-              </p>
-            </div>
-            
-            <div className="bg-[#111] rounded-xl p-5 border border-[#1e1e1e] hover:border-[#2a2a2a] transition-colors">
-              <div className="bg-[#0f2a0f] w-10 h-10 rounded-lg flex items-center justify-center mb-4">
-                <Activity className="text-[#00e676] w-5 h-5" />
-              </div>
-              <h3 className="text-white font-semibold text-lg">Real-Time Market Monitoring</h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Live order books, recent trades, and ultra-fast price updates.
-              </p>
-            </div>
-          </div>
+          <Link href="/register">
+            <button
+              style={{
+                background: "#00e676",
+                color: "#000000",
+                fontWeight: 700,
+                fontSize: 14,
+                padding: "14px 32px",
+                borderRadius: 12,
+                border: "none",
+                cursor: "pointer",
+                marginTop: 20,
+              }}
+            >
+              Create Free Account
+            </button>
+          </Link>
         </div>
       </main>
     </div>
