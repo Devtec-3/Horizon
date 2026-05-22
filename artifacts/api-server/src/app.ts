@@ -1,7 +1,7 @@
 import express, { type Express } from "express";
 import cors from "cors";
-// This forces TypeScript to accept the library as a function
-import pinoHttp = require('pino-http');
+import { IncomingMessage, ServerResponse } from "http"; // Required for serializer types
+import pinoHttp = require('pino-http'); // Using require syntax for robust ESM/CJS interop
 
 import router from "./routes";
 import { logger } from "./lib/logger";
@@ -12,14 +12,16 @@ app.use(
   pinoHttp({
     logger,
     serializers: {
-      req(req) {
+      // Explicitly typing req as IncomingMessage
+      req(req: IncomingMessage) {
         return {
-          id: req.id,
+          id: (req as any).id, // Casting to any because 'id' is a custom property added by pino-http
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res) {
+      // Explicitly typing res as ServerResponse
+      res(res: ServerResponse) {
         return {
           statusCode: res.statusCode,
         };
@@ -27,6 +29,7 @@ app.use(
     },
   }),
 );
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
