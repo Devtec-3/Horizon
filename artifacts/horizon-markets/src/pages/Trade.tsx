@@ -297,14 +297,25 @@ interface OrderFormProps {
 
 /* ---- Desktop Order Form ---- */
 function DesktopOrderForm({ side, setSide, orderType, setOrderType, price, setPrice, amount, setAmount, total }: OrderFormProps) {
+  const [sliderPct, setSliderPct] = useState(0);
+
+  const handleSlider = (v: number) => {
+    setSliderPct(v);
+    setAmount(v === 0 ? "" : ((v / 100) * 1.5).toFixed(4));
+  };
+  const handlePct = (pct: number) => {
+    setSliderPct(pct);
+    setAmount(((pct / 100) * 1.5).toFixed(4));
+  };
+
   return (
     <div className="flex flex-col h-full">
       {/* Buy / Sell tabs */}
       <div className="p-2 sm:p-3 border-b border-border flex-shrink-0">
-        <div className="flex-1 text-xs sm:text-sm flex">
+        <div className="flex">
           <button
             onClick={() => setSide("buy")}
-            className={`flex-1 py-2 text-sm font-semibold rounded-l-md border transition-colors ${
+            className={`flex-1 py-2.5 text-sm font-bold rounded-l-md border transition-colors ${
               side === "buy"
                 ? "bg-success text-success-foreground border-success"
                 : "bg-secondary text-muted-foreground border-border hover:text-foreground"
@@ -315,7 +326,7 @@ function DesktopOrderForm({ side, setSide, orderType, setOrderType, price, setPr
           </button>
           <button
             onClick={() => setSide("sell")}
-            className={`flex-1 py-2 text-sm font-semibold rounded-r-md border transition-colors ${
+            className={`flex-1 py-2.5 text-sm font-bold rounded-r-md border transition-colors ${
               side === "sell"
                 ? "bg-destructive text-destructive-foreground border-destructive"
                 : "bg-secondary text-muted-foreground border-border hover:text-foreground"
@@ -327,15 +338,15 @@ function DesktopOrderForm({ side, setSide, orderType, setOrderType, price, setPr
         </div>
       </div>
 
-      <div className="flex-1 p-2 sm:p-3 space-y-3 sm:space-y-4 overflow-auto">
+      <div className="flex-1 p-3 space-y-3 overflow-auto">
         {/* Order type tabs */}
-        <div className="w-full bg-secondary h-8 sm:h-9 flex rounded-md p-0.5">
+        <div className="w-full bg-secondary h-9 flex rounded-md p-0.5">
           {(["limit", "market"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setOrderType(t)}
-              className={`flex-1 text-xs sm:text-sm rounded capitalize transition-colors ${
-                orderType === t ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`flex-1 text-xs rounded capitalize transition-colors ${
+                orderType === t ? "bg-card text-foreground shadow-sm font-medium" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -344,78 +355,96 @@ function DesktopOrderForm({ side, setSide, orderType, setOrderType, price, setPr
         </div>
 
         {/* Available */}
-        <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>Available</span>
           <span className="font-mono text-foreground">0 USDT</span>
         </div>
 
         {/* Price */}
         {orderType === "limit" && (
-          <div className="space-y-1 sm:space-y-1.5">
-            <label className="text-[10px] sm:text-xs text-muted-foreground">Price (USDT)</label>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground">Price (USDT)</label>
             <input
               type="text"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="font-mono bg-secondary border-border h-8 sm:h-9 text-xs sm:text-sm w-full px-3 rounded-md border text-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              className="font-mono bg-secondary border-border h-9 text-xs w-full px-3 rounded-md border text-foreground focus:outline-none transition-colors"
               data-testid="input-price"
             />
           </div>
         )}
 
         {/* Amount */}
-        <div className="space-y-1 sm:space-y-1.5">
-          <label className="text-[10px] sm:text-xs text-muted-foreground">Amount (BTC)</label>
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">Amount (BTC)</label>
           <input
             type="text"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0.00"
-            className="font-mono bg-secondary border-border h-8 sm:h-9 text-xs sm:text-sm w-full px-3 rounded-md border text-foreground focus:outline-none focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
+            className="font-mono bg-secondary border-border h-9 text-xs w-full px-3 rounded-md border text-foreground focus:outline-none transition-colors placeholder:text-muted-foreground"
             data-testid="input-amount"
           />
         </div>
 
+        {/* Slider */}
+        <div className="pt-1">
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={sliderPct}
+            onChange={(e) => handleSlider(parseInt(e.target.value))}
+            className="w-full"
+            style={{
+              background: `linear-gradient(to right, #00e676 0%, #00e676 ${sliderPct}%, #374151 ${sliderPct}%, #374151 100%)`,
+            }}
+            data-testid="slider-amount"
+          />
+        </div>
+
         {/* Percentage quick-fill */}
-        <div className="space-y-1.5 sm:space-y-2">
-          <div className="grid grid-cols-4 gap-1">
-            {[25, 50, 75, 100].map((pct) => (
-              <button
-                key={pct}
-                onClick={() => setAmount(((pct / 100) * 1.5).toFixed(4))}
-                className="h-5 sm:h-6 text-[10px] sm:text-xs px-1 bg-secondary hover:bg-card border border-border rounded transition-colors text-muted-foreground hover:text-foreground"
-                data-testid={`pct-${pct}`}
-              >
-                {pct}%
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-4 gap-1">
+          {[25, 50, 75, 100].map((pct) => (
+            <button
+              key={pct}
+              onClick={() => handlePct(pct)}
+              className={`h-6 text-[10px] px-1 border rounded transition-colors ${
+                sliderPct === pct
+                  ? "border-primary text-primary bg-primary/10"
+                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
+              }`}
+              data-testid={`pct-${pct}`}
+            >
+              {pct}%
+            </button>
+          ))}
         </div>
 
         {/* Total */}
-        <div className="space-y-1 sm:space-y-1.5">
-          <label className="text-[10px] sm:text-xs text-muted-foreground">Total (USDT)</label>
-          <div className="font-mono bg-muted border-border h-8 sm:h-9 text-xs sm:text-sm w-full px-3 rounded-md border text-muted-foreground flex items-center">
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">Total (USDT)</label>
+          <div className="font-mono bg-muted border-border h-9 text-xs w-full px-3 rounded-md border text-muted-foreground flex items-center">
             {total}
           </div>
         </div>
 
         {/* Fee */}
-        <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>Fee (0.1%)</span>
           <span className="font-mono">{amount ? (parseFloat(amount) * 0.001).toFixed(6) : "0.000000"} BTC</span>
         </div>
 
         {/* Submit */}
         <button
-          className={`w-full py-2.5 sm:py-3 rounded-md font-semibold text-sm transition-colors ${
+          className={`w-full py-3 rounded-md font-bold text-sm transition-colors ${
             side === "buy"
               ? "bg-success text-success-foreground hover:bg-success/90"
               : "bg-destructive text-destructive-foreground hover:bg-destructive/90"
           }`}
           data-testid="btn-place-order"
         >
-          {side === "buy" ? `Buy BTC` : `Sell BTC`}
+          {side === "buy" ? "Buy BTC" : "Sell BTC"}
         </button>
       </div>
     </div>
