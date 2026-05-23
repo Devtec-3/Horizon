@@ -4,19 +4,21 @@
     "module": "CommonJS",
     "lib": ["ESNext"],
     "moduleResolution": "node",
-    
+
     /* Strict Checks */
-    "strict": true, 
-    "noImplicitAny": false, 
-    
+    "strict": true,
+    "noImplicitAny": false,
+
     /* Compatibility Fixes */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    
+
     /* Best Practices */
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+
+    /* Build */
+    "noEmitOnError": false
   }
 }
-
