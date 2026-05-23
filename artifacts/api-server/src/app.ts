@@ -2,7 +2,7 @@ import express, { type Express } from "express";
 import cors from "cors";
 import { pinoHttp } from 'pino-http'; // ← named export
 
-import router from "./routes/index";
+import router from "./routes/index.js";
 
 import { logger } from "./lib/logger";
 
