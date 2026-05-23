@@ -1,7 +1,6 @@
 import express, { type Express } from "express";
 import cors from "cors";
-// Standard import now works because we told TS to ignore the types in our .d.ts file
-import pinoHttp from 'pino-http'; 
+import { pinoHttp } from 'pino-http'; // ← named export
 
 import router from "./routes";
 import { logger } from "./lib/logger";
@@ -12,14 +11,14 @@ app.use(
   pinoHttp({
     logger,
     serializers: {
-      req(req: any) { // Use 'any' here as well to be safe
+      req(req: any) {
         return {
           id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res: any) { // Use 'any' here as well to be safe
+      res(res: any) {
         return {
           statusCode: res.statusCode,
         };
