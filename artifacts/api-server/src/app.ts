@@ -1,8 +1,7 @@
 import express, { type Express } from "express";
 import cors from "cors";
-import { IncomingMessage, ServerResponse } from "http";
-// Using 'import = require' is the most robust way to handle pino-http in Vercel
-import pinoHttp = require('pino-http'); 
+// Standard import now works because we told TS to ignore the types in our .d.ts file
+import pinoHttp from 'pino-http'; 
 
 import router from "./routes";
 import { logger } from "./lib/logger";
@@ -13,18 +12,14 @@ app.use(
   pinoHttp({
     logger,
     serializers: {
-      // Typing req as IncomingMessage is required by strict mode
-      req(req: IncomingMessage) {
+      req(req: any) { // Use 'any' here as well to be safe
         return {
-          // Casting to 'any' is necessary here because pino-http 
-          // attaches a custom 'id' property to the request object.
-          id: (req as any).id, 
+          id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      // Typing res as ServerResponse
-      res(res: ServerResponse) {
+      res(res: any) { // Use 'any' here as well to be safe
         return {
           statusCode: res.statusCode,
         };
