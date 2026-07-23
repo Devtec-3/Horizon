@@ -4,6 +4,9 @@ import { pinoHttp } from 'pino-http'; // ← named export
 
 import router from "./routes/index.js";
 
+import cookieParser from "cookie-parser";
+
+
 import { logger } from "./lib/logger";
 
 const app: Express = express();
