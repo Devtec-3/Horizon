@@ -22,7 +22,8 @@ const { login, error } = useAuth();
           <h2 className="text-foreground text-xl font-bold mb-1">Welcome back</h2>
           <p className="text-muted-foreground text-sm mb-6">Sign in to your Horizon Markets account</p>
 
-          <form onSubmit={handleSubmit(() => login())} className="space-y-4">
+          <form onSubmit={handleSubmit((data) => login(data.email, data.password))} className="space-y-4">
+
             <div className="space-y-1.5">
               <label className="text-foreground text-sm font-medium">Email</label>
               <input
