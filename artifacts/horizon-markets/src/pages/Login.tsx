@@ -4,8 +4,9 @@ import { Logo } from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
+  const { register, handleSubmit } = useForm<{ email: string; password: string }>();
+const { login, error } = useAuth();
+
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
