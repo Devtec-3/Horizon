@@ -83,8 +83,15 @@ const COUNTRIES = [
 ];
 
 export default function Register() {
-  const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
+  const { register, handleSubmit } = useForm<{
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}>();
+const { register: registerUser, error } = useAuth();
+
 
   const [countryOpen, setCountryOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
@@ -118,7 +125,14 @@ export default function Register() {
           <h2 className="text-foreground text-xl font-bold mb-1">Create account</h2>
           <p className="text-muted-foreground text-sm mb-6">Join 4.2M+ traders on Horizon Markets</p>
 
-          <form onSubmit={handleSubmit(() => login())} className="space-y-3">
+       <form
+  onSubmit={handleSubmit((data) => {
+    const username = `${data.firstName}${data.lastName}`.replace(/\s+/g, "").toLowerCase();
+    registerUser(username, data.email, data.password);
+  })}
+  className="space-y-3"
+>
+
             <div className="grid grid-cols-2 gap-2">
               <input
                 {...register("firstName")}
